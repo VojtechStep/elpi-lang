@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "module": "ES6",
+    "outDir": "../../out-browser"
+  },
+  "include": ["."],
+  "exclude": ["./mainPage.ts"]
+}

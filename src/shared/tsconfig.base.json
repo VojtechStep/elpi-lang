@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "lib": ["es2022"],
+    "target": "ES6",
+    "noEmit": true,
+    "rootDir": "../"
+  }
+}

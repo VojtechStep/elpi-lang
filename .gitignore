@@ -2,6 +2,7 @@
 *.swp
 *.vsix
 out
+out-browser
 dist
 node_modules
 .vscode-test-web/

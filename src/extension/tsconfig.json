@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "module": "commonjs",
+    "target": "ES6",
+    "lib": ["es2020"],
+    "rootDir": "../",
+    "outDir": "../../out"
+  },
+  "include": ["*.ts"],
+  "references": [
+    {"path": "../shared/tsconfig.node.json"},
+    {"path": "../shared/tsconfig.browser.json"}
+  ]
+}
