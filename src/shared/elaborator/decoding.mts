@@ -7,10 +7,12 @@ import type {
   R,
   StepIdx,
   Time,
-  TimedItem,
+  Timed,
+  Item2,
   V,
   Event
 } from './types.mjs';
+type TimedItem = Timed<{ item: Item2 }>
 
 export function has<
   K, T extends { item: { name: K } }

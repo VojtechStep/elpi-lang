@@ -9,16 +9,19 @@ import type {
   GoalId,
   GoalMap,
   Location,
+  ParsedTrace,
   R,
-  RawStep,
+  RawStep2 as RawStep,
+  Item2,
   StepId,
   StepIdx,
   Time,
-  TimedItem,
+  Timed,
   Timestamp,
-  V
+  V,
+  Timestamped
 } from './types.mjs';
-
+type TimedItem = Timed<{ item: Item2 }>
 
 export type Outcome =
   | R<'Success', { siblings: GoalId[] }>
@@ -60,10 +63,7 @@ export type Step =
   | R<'CHR', { failed: CHRAttempt[], successful: CHRAttempt[], storeBefore: Constraint[], storeAfter: Constraint[] }>
   | R<'Broken', { step: StepIdx, time: Time }>;
 
-export type TimedStep = {
-  timestamp: Timestamp,
-  step: Step
-}
+export type TimedStep = Timestamped<{ step: Step }>
 
 class ElaborationError extends Error {
   public step: RawStep;
@@ -423,17 +423,27 @@ export type Frame = {
 
 export type Stack = Frame[];
 
+// TODO: Elaboration should be representation independent, move the
+// types out of trace_vX.mts to types.mts
 export type Elaboration = {
   steps: SortedStepMap<TimedStep>,
   stackFrames: StepMap<Stack>,
   goalText: GoalMap<string>
 };
 
-export function elaborateSteps(steps: StepMap<RawStep>): Elaboration {
+export function elaborateSteps(parsedSteps: ParsedTrace): Elaboration {
   const goals: GoalMap<string> = new Map();
   const elaborated: StepMap<TimedStep> = new StepMap();
   const stacks: StepMap<Stack> = new StepMap();
   const seedStacks: GoalMap<Stack> = new Map();
+
+  // The v1 and v2 raw traces are syntactically identical, so we can
+  // reuse the same code. There is a semantic difference, since some
+  // v2 BuiltinRule nodes are supposed to have more metadata, but we
+  // can't syntactically distinguish v1 and v2, so instead we use
+  // default values for the missing metadata during elaboration.
+  const steps = parsedSteps.value;
+
 
   steps.forEach((val, key) => {
     val.items.forEach(i => {

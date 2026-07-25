@@ -981,15 +981,15 @@ ${step.value.findall_solution_text}
             rule_text_full = rule_text
         }
 
-        if (rule_type == "BuiltinRule")
-            if (element.value.name) {// v2
-                rule_text = element.value.kind.kind + ' - ' + element.value.name + ': ' + element.value.payload.join('\n');
-                rule_text_full = element.value.payload.join('\n');
+        if (rule_type == "BuiltinRule") {
+            rule_text = element.value.kind.kind + ' - ' + element.value.name;
+            if (element.value.payload.length !== 0) {// v2
+                rule_text_full = element.value.payload.join('\n')
+                rule_text += ': ' + rule_text_full;
             } else { //v1
-                rule_text = element.value.kind + ' - ' + element.value.value;
                 rule_text_full = rule_text
             }
-        // rule_text = rule_text.trim();
+        }
 
         let fmt = `
 <div class="panel-element">

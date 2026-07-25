@@ -1,4 +1,8 @@
-import type { Item } from './trace_v2.mjs';
+import type { Item as Item1 } from './trace_v1.mjs';
+import type { Item as Item2 } from './trace_v2.mjs';
+export type { Item as Item1 } from './trace_v1.mjs';
+export type { Item as Item2 } from './trace_v2.mjs';
+import type StepMap from './StepMap.mts';
 
 export type V<K> = { value: K };
 export type R<K extends string, Rec = {}> = { kind: K } & Rec;
@@ -15,10 +19,13 @@ export type GoalId = number;
 export type Time = number;
 export type Timestamp = { start: Time; stop: Time };
 
-export type TimedItem = {
-  item: Item,
+export type Timed<R> = R & {
   time: Time
 };
+
+export type Timestamped<R> = R & {
+  timestamp: Timestamp
+}
 
 export type FileLocation = {
   filename: string,
@@ -63,7 +70,9 @@ export type CHRAttempt = {
 export type GoalMap<T> = Map<GoalId, T>;
 export type GoalSet = Set<GoalId>;
 
-export type RawStep = {
-  timestamp: Timestamp,
-  items: TimedItem[]
-};
+export type RawStep1 = Timestamped<{ items: Timed<{ item : Item1 }>[]}>;
+export type RawStep2 = Timestamped<{ items: Timed<{ item : Item2 }>[]}>;
+
+export type ParsedTrace =
+  | R<'V1', V<StepMap<RawStep1>>>
+  | R<'V2', V<StepMap<RawStep2>>>;

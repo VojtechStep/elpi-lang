@@ -8,6 +8,5 @@
     "rootDir": "../",
     "outDir": "../../out"
   },
-  "include": ["."],
-  "exclude": ["elaborator/trace_v1.mts"]
+  "include": ["."]
 }
