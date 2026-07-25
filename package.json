@@ -149,8 +149,12 @@
 		"build": "mustache elpiLexicalConventions.js syntaxes/elpi.tmLanguage.mustache > syntaxes/elpi.tmLanguage.json",
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -b ./src/extension",
+    "compile:tests": "tsc -b ./src/tests",
 		"lint": "eslint . --ext .ts,.tsx",
-		"watch": "tsc -b -w ./src/extension",
+		"watch": "npm run compile -- -w",
+    "watch:tests": "npm run compile:tests -- -w",
+    "run:test": "node ./out/tests/index.mjs",
+    "test": "npm run compile:tests && cp -r ./src/tests/sources ./out/tests/ && npm run run:test",
 		"deploy": "vsce publish"
 	},
 	"devDependencies": {

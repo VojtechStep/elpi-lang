@@ -10,7 +10,8 @@
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": false,
 		"sourceMap": true,
-		"strict": true
+		"strict": true,
+    "target": "es2022"
 	},
   "files": [],
   "references": [

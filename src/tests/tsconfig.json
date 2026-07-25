@@ -2,9 +2,10 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "composite": true,
-    "module": "commonjs",
+    "module": "node18",
     "rootDir": "../",
-    "outDir": "../../out"
+    "outDir": "../../out",
+    "resolveJsonModule": true
   },
   "include": ["."],
   "references": [{ "path": "../shared" }]
