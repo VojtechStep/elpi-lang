@@ -15,10 +15,10 @@ type ModuleName =
   | 'main';
 
 export type MainConfig = {
-  styles: Record<StyleName, string>,
-  scripts: Record<ScriptName, string>,
+  styles: Record<StyleName, string> & { [key: string]: string },
+  scripts: Record<ScriptName, string> & { [key: string]: string },
   imports: Record<ImportName, string>,
-  modules: Record<ModuleName, string>
+  modules: Record<ModuleName, string> & { [key: string]: string }
 };
 
 export default (

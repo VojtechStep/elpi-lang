@@ -147,14 +147,17 @@
 	},
 	"scripts": {
 		"build": "mustache elpiLexicalConventions.js syntaxes/elpi.tmLanguage.mustache > syntaxes/elpi.tmLanguage.json",
+    "build:web": "npm run compile:ssg && npm run run:ssg",
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -b ./src/extension",
     "compile:tests": "tsc -b ./src/tests",
+    "compile:ssg": "tsc -b ./src/ssg",
 		"lint": "eslint . --ext .ts,.tsx",
 		"watch": "npm run compile -- -w",
     "watch:tests": "npm run compile:tests -- -w",
     "run:test": "node --test './out/**/*.test.mjs'",
     "run:promote": "node --test-update-snapshots --test './**/*.test.mjs'",
+    "run:ssg": "node ./out/ssg/ssg.mjs",
     "test": "npm run compile:tests && npm run run:test",
     "promote": "npm run compile:tests && npm run run:promote",
 		"deploy": "vsce publish"

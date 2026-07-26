@@ -1626,7 +1626,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
         filter($filter.value);
     });
 
-    document.getElementById('options').addEventListener('change', e => {
+    document.getElementById('options')?.addEventListener('change', e => {
         vscode.postMessage({
             command: 'options_changed',
             value: e.target.value
