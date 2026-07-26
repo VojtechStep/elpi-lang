@@ -2,7 +2,13 @@
   {
     "step_id": 0,
     "runtime_id": 0,
-    "step": [ "Init", { "goal_text": "main", "goal_id": 4 } ],
+    "step": [
+      "Init",
+      {
+        "goal_text": "main",
+        "goal_id": 4
+      }
+    ],
     "color": "Grey"
   },
   {
@@ -35,11 +41,17 @@
               ],
               "events": []
             },
-            "siblings": [ { "goal_text": "tests [2]", "goal_id": 5 } ],
+            "siblings": [
+              {
+                "goal_text": "tests [2]",
+                "goal_id": 5
+              }
+            ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -93,16 +105,28 @@
                   ]
                 }
               ],
-              "events": [ [ "Assign", "A0 := 2" ] ]
+              "events": [
+                [
+                  "Assign",
+                  "A0 := 2"
+                ]
+              ]
             },
             "siblings": [
-              { "goal_text": "test 2 X0", "goal_id": 6 },
-              { "goal_text": "typecheck X0", "goal_id": 7 }
+              {
+                "goal_text": "test 2 X0",
+                "goal_id": 6
+              },
+              {
+                "goal_text": "typecheck X0",
+                "goal_id": 7
+              }
             ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -187,6 +211,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -290,22 +315,32 @@
                 "goal_text": "print Checking: (let (lam c0 \\ c0) X1 c0 \\ app c0 (global []))",
                 "goal_id": 8
               },
-              { "goal_text": "theta []", "goal_id": 9 },
+              {
+                "goal_text": "theta []",
+                "goal_id": 9
+              },
               {
                 "goal_text": "of (let (lam c0 \\ c0) X1 c0 \\ app c0 (global [])) X2",
                 "goal_id": 10
               },
-              { "goal_text": "!", "goal_id": 11 },
+              {
+                "goal_text": "!",
+                "goal_id": 11
+              },
               {
                 "goal_text": "print (let (lam c0 \\ c0) X1 c0 \\ app c0 (global []))  :  X2",
                 "goal_id": 12
               },
-              { "goal_text": "print", "goal_id": 13 }
+              {
+                "goal_text": "print",
+                "goal_id": 13
+              }
             ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -384,7 +419,11 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "print", "kind": "FFI", "payload": [] }
+                {
+                  "name": "print",
+                  "kind": "FFI",
+                  "payload": []
+                }
               ],
               "events": []
             },
@@ -393,11 +432,16 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
               "BuiltinRule",
-              { "name": "print", "kind": "FFI", "payload": [] }
+              {
+                "name": "print",
+                "kind": "FFI",
+                "payload": []
+              }
             ],
             "step_id": 5,
             "runtime_id": 0
@@ -492,15 +536,24 @@
                   ]
                 }
               ],
-              "events": [ [ "Assign", "A0 := []" ] ]
+              "events": [
+                [
+                  "Assign",
+                  "A0 := []"
+                ]
+              ]
             },
             "siblings": [
-              { "goal_text": "new_constraint (theta []) [_]", "goal_id": 14 }
+              {
+                "goal_text": "new_constraint (theta []) [_]",
+                "goal_id": 14
+              }
             ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -612,7 +665,14 @@
                 }
               ],
               "events": [
-                [ "Assign", "A0 := theta []" ], [ "Assign", "A1 := [_]" ]
+                [
+                  "Assign",
+                  "A0 := theta []"
+                ],
+                [
+                  "Assign",
+                  "A1 := [_]"
+                ]
               ]
             },
             "siblings": [
@@ -625,6 +685,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -734,12 +795,19 @@
       {
         "suspend_goal_id": 15,
         "suspend_goal_text": "declare_constraint (theta []) [_]",
-        "suspend_sibling": { "goal_text": "theta []", "goal_id": 16 },
+        "suspend_sibling": {
+          "goal_text": "theta []",
+          "goal_id": 16
+        },
         "suspend_stack": [
           {
             "rule": [
               "BuiltinRule",
-              { "name": "suspend", "kind": "Logic", "payload": [] }
+              {
+                "name": "suspend",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 8,
             "runtime_id": 0
@@ -873,15 +941,33 @@
                 }
               ],
               "events": [
-                [ "Assign", "A0 := lam c0 \\ c0" ],
-                [ "Assign", "A2 := X1" ],
-                [ "Assign", "A3 := c0 \\\napp c0 (global [])" ],
-                [ "Assign", "X2 := mono X3" ]
+                [
+                  "Assign",
+                  "A0 := lam c0 \\ c0"
+                ],
+                [
+                  "Assign",
+                  "A2 := X1"
+                ],
+                [
+                  "Assign",
+                  "A3 := c0 \\\napp c0 (global [])"
+                ],
+                [
+                  "Assign",
+                  "X2 := mono X3"
+                ]
               ]
             },
             "siblings": [
-              { "goal_text": "of (lam c0 \\ c0) (mono X4)", "goal_id": 17 },
-              { "goal_text": "gammabar (mono X4) X1", "goal_id": 18 },
+              {
+                "goal_text": "of (lam c0 \\ c0) (mono X4)",
+                "goal_id": 17
+              },
+              {
+                "goal_text": "gammabar (mono X4) X1",
+                "goal_id": 18
+              },
               {
                 "goal_text": "pi c0 \\ of c0 X1 => of (app c0 (global [])) (mono X3)",
                 "goal_id": 19
@@ -891,6 +977,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -1002,8 +1089,14 @@
                 }
               ],
               "events": [
-                [ "Assign", "A0 := c0 \\\nc0" ],
-                [ "Assign", "X4 := X5 ===> X6" ]
+                [
+                  "Assign",
+                  "A0 := c0 \\\nc0"
+                ],
+                [
+                  "Assign",
+                  "X4 := X5 ===> X6"
+                ]
               ]
             },
             "siblings": [
@@ -1016,6 +1109,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -1132,7 +1226,11 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "pi", "kind": "Logic", "payload": [] }
+                {
+                  "name": "pi",
+                  "kind": "Logic",
+                  "payload": []
+                }
               ],
               "events": []
             },
@@ -1146,10 +1244,16 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 11,
             "runtime_id": 0
@@ -1269,15 +1373,25 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "implication", "kind": "Logic", "payload": [] }
+                {
+                  "name": "implication",
+                  "kind": "Logic",
+                  "payload": []
+                }
               ],
               "events": []
             },
-            "siblings": [ { "goal_text": "of c0 (mono X6)", "goal_id": 22 } ],
+            "siblings": [
+              {
+                "goal_text": "of c0 (mono X6)",
+                "goal_id": 22
+              }
+            ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -1285,7 +1399,9 @@
               {
                 "name": "implication",
                 "kind": "Logic",
-                "payload": [ "(of c0 (mono X5)) :- ." ]
+                "payload": [
+                  "(of c0 (mono X5)) :- ."
+                ]
               }
             ],
             "step_id": 12,
@@ -1293,7 +1409,12 @@
           },
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 11,
             "runtime_id": 0
@@ -1415,23 +1536,35 @@
                 "UserRule",
                 {
                   "rule_text": "(of c0 (mono X5)) :- .",
-                  "rule_loc": [ "Context", 12 ]
+                  "rule_loc": [
+                    "Context",
+                    12
+                  ]
                 }
               ],
-              "events": [ [ "Assign", "X6 := X5" ] ]
+              "events": [
+                [
+                  "Assign",
+                  "X6 := X5"
+                ]
+              ]
             },
             "siblings": [],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
               "UserRule",
               {
                 "rule_text": "(of c0 (mono X5)) :- .",
-                "rule_loc": [ "Context", 12 ]
+                "rule_loc": [
+                  "Context",
+                  12
+                ]
               }
             ],
             "step_id": 13,
@@ -1443,7 +1576,9 @@
               {
                 "name": "implication",
                 "kind": "Logic",
-                "payload": [ "(of c0 (mono X5)) :- ." ]
+                "payload": [
+                  "(of c0 (mono X5)) :- ."
+                ]
               }
             ],
             "step_id": 12,
@@ -1451,7 +1586,12 @@
           },
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 11,
             "runtime_id": 0
@@ -1585,7 +1725,14 @@
                 }
               ],
               "events": [
-                [ "Assign", "A0 := X5 ===> X5" ], [ "Assign", "A1 := X1" ]
+                [
+                  "Assign",
+                  "A0 := X5 ===> X5"
+                ],
+                [
+                  "Assign",
+                  "A1 := X1"
+                ]
               ]
             },
             "siblings": [
@@ -1598,6 +1745,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -1728,8 +1876,14 @@
                 }
               ],
               "events": [
-                [ "Assign", "A0 := gammabar (mono (X5 ===> X5)) X1" ],
-                [ "Assign", "A1 := [_]" ]
+                [
+                  "Assign",
+                  "A0 := gammabar (mono (X5 ===> X5)) X1"
+                ],
+                [
+                  "Assign",
+                  "A1 := [_]"
+                ]
               ]
             },
             "siblings": [
@@ -1742,6 +1896,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -1878,7 +2033,11 @@
           {
             "rule": [
               "BuiltinRule",
-              { "name": "suspend", "kind": "Logic", "payload": [] }
+              {
+                "name": "suspend",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 16,
             "runtime_id": 0
@@ -2061,13 +2220,22 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A5 := []" ],
-                              [ "Assign", "A2 := []" ],
+                              [
+                                "Assign",
+                                "A5 := []"
+                              ],
+                              [
+                                "Assign",
+                                "A2 := []"
+                              ],
                               [
                                 "Assign",
                                 "A0 := uvar frozen--452 [] ===> uvar frozen--452 []"
                               ],
-                              [ "Assign", "A6 := X3" ]
+                              [
+                                "Assign",
+                                "A6 := X3"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -2092,6 +2260,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -2150,8 +2319,14 @@
                                 "Assign",
                                 "A0 := uvar frozen--452 [] ===> uvar frozen--452 []"
                               ],
-                              [ "Assign", "A1 := []" ],
-                              [ "Assign", "A2 := X4" ]
+                              [
+                                "Assign",
+                                "A1 := []"
+                              ],
+                              [
+                                "Assign",
+                                "A2 := X4"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -2164,6 +2339,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -2237,10 +2413,22 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A0 := uvar frozen--452 []" ],
-                              [ "Assign", "A3 := uvar frozen--452 []" ],
-                              [ "Assign", "A1 := []" ],
-                              [ "Assign", "A4 := X4" ]
+                              [
+                                "Assign",
+                                "A0 := uvar frozen--452 []"
+                              ],
+                              [
+                                "Assign",
+                                "A3 := uvar frozen--452 []"
+                              ],
+                              [
+                                "Assign",
+                                "A1 := []"
+                              ],
+                              [
+                                "Assign",
+                                "A4 := X4"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -2257,6 +2445,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -2349,9 +2538,18 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A1 := uvar frozen--452 []" ],
-                              [ "Assign", "A0 := []" ],
-                              [ "Assign", "A2 := X7" ]
+                              [
+                                "Assign",
+                                "A1 := uvar frozen--452 []"
+                              ],
+                              [
+                                "Assign",
+                                "A0 := []"
+                              ],
+                              [
+                                "Assign",
+                                "A2 := X7"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -2364,6 +2562,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -2479,7 +2678,10 @@
                                 "Assign",
                                 "A0 := mem [] (uvar frozen--452 [])"
                               ],
-                              [ "Assign", "A1 := X7 = []" ]
+                              [
+                                "Assign",
+                                "A1 := X7 = []"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -2487,13 +2689,22 @@
                               "goal_text": "mem [] (uvar frozen--452 [])",
                               "goal_id": 35
                             },
-                            { "goal_text": "!", "goal_id": 36 },
-                            { "goal_text": "X7 = []", "goal_id": 37 }
+                            {
+                              "goal_text": "!",
+                              "goal_id": 36
+                            },
+                            {
+                              "goal_text": "X7 = []",
+                              "goal_id": 37
+                            }
                           ],
                           "siblings_aggregated_outcome": "Fail"
                         }
                       ],
-                      "more_successful_attempts": [ 8 ],
+                      "more_successful_attempts": [
+                        8
+                      ],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -2624,8 +2835,14 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A0 := []" ],
-                              [ "Assign", "A1 := frozen--452" ]
+                              [
+                                "Assign",
+                                "A0 := []"
+                              ],
+                              [
+                                "Assign",
+                                "A1 := frozen--452"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -2638,6 +2855,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -2770,6 +2988,7 @@
                       "failed_attempts": [],
                       "successful_attempts": [],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -2920,7 +3139,8 @@
                             ],
                             "events": [
                               [
-                                "Assign", "A0 := X7 = [uvar frozen--452 []]"
+                                "Assign",
+                                "A0 := X7 = [uvar frozen--452 []]"
                               ]
                             ]
                           },
@@ -2934,6 +3154,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -3057,7 +3278,10 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "X7 := [uvar frozen--452 []]" ]
+                              [
+                                "Assign",
+                                "X7 := [uvar frozen--452 []]"
+                              ]
                             ]
                           },
                           "siblings": [],
@@ -3065,11 +3289,16 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
                             "BuiltinRule",
-                            { "name": "eq", "kind": "Logic", "payload": [] }
+                            {
+                              "name": "eq",
+                              "kind": "Logic",
+                              "payload": []
+                            }
                           ],
                           "step_id": 9,
                           "runtime_id": 1
@@ -3203,9 +3432,18 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A1 := uvar frozen--452 []" ],
-                              [ "Assign", "A0 := [uvar frozen--452 []]" ],
-                              [ "Assign", "A2 := X4" ]
+                              [
+                                "Assign",
+                                "A1 := uvar frozen--452 []"
+                              ],
+                              [
+                                "Assign",
+                                "A0 := [uvar frozen--452 []]"
+                              ],
+                              [
+                                "Assign",
+                                "A2 := X4"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -3218,6 +3456,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -3334,7 +3573,8 @@
                                 "A0 := mem [uvar frozen--452 []] (uvar frozen--452 [])"
                               ],
                               [
-                                "Assign", "A1 := X4 = [uvar frozen--452 []]"
+                                "Assign",
+                                "A1 := X4 = [uvar frozen--452 []]"
                               ]
                             ]
                           },
@@ -3343,7 +3583,10 @@
                               "goal_text": "mem [uvar frozen--452 []] (uvar frozen--452 [])",
                               "goal_id": 41
                             },
-                            { "goal_text": "!", "goal_id": 42 },
+                            {
+                              "goal_text": "!",
+                              "goal_id": 42
+                            },
                             {
                               "goal_text": "X4 = [uvar frozen--452 []]",
                               "goal_id": 43
@@ -3353,6 +3596,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -3483,8 +3727,14 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A0 := [uvar frozen--452 []]" ],
-                              [ "Assign", "A1 := frozen--452" ]
+                              [
+                                "Assign",
+                                "A0 := [uvar frozen--452 []]"
+                              ],
+                              [
+                                "Assign",
+                                "A1 := frozen--452"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -3497,6 +3747,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -3646,15 +3897,27 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A0 := uvar frozen--452 []" ],
-                              [ "Assign", "X9 := []" ]
+                              [
+                                "Assign",
+                                "A0 := uvar frozen--452 []"
+                              ],
+                              [
+                                "Assign",
+                                "X9 := []"
+                              ]
                             ]
                           },
-                          "siblings": [ { "goal_text": "!", "goal_id": 45 } ],
+                          "siblings": [
+                            {
+                              "goal_text": "!",
+                              "goal_id": 45
+                            }
+                          ],
                           "siblings_aggregated_outcome": "Success"
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -3878,7 +4141,10 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "X4 := [uvar frozen--452 []]" ]
+                              [
+                                "Assign",
+                                "X4 := [uvar frozen--452 []]"
+                              ]
                             ]
                           },
                           "siblings": [],
@@ -3886,11 +4152,16 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
                             "BuiltinRule",
-                            { "name": "eq", "kind": "Logic", "payload": [] }
+                            {
+                              "name": "eq",
+                              "kind": "Logic",
+                              "payload": []
+                            }
                           ],
                           "step_id": 16,
                           "runtime_id": 1
@@ -4024,8 +4295,14 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A0 := []" ],
-                              [ "Assign", "X5 := []" ]
+                              [
+                                "Assign",
+                                "A0 := []"
+                              ],
+                              [
+                                "Assign",
+                                "X5 := []"
+                              ]
                             ]
                           },
                           "siblings": [],
@@ -4033,6 +4310,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -4106,11 +4384,21 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A0 := uvar frozen--452 []" ],
-                              [ "Assign", "A2 := []" ],
-                              [ "Assign", "A1 := c0 \\\nnot (mem [] c0)" ],
                               [
-                                "Assign", "X6 := [uvar frozen--452 [] | X10]"
+                                "Assign",
+                                "A0 := uvar frozen--452 []"
+                              ],
+                              [
+                                "Assign",
+                                "A2 := []"
+                              ],
+                              [
+                                "Assign",
+                                "A1 := c0 \\\nnot (mem [] c0)"
+                              ],
+                              [
+                                "Assign",
+                                "X6 := [uvar frozen--452 [] | X10]"
                               ]
                             ]
                           },
@@ -4119,7 +4407,10 @@
                               "goal_text": "not (mem [] (uvar frozen--452 []))",
                               "goal_id": 46
                             },
-                            { "goal_text": "!", "goal_id": 47 },
+                            {
+                              "goal_text": "!",
+                              "goal_id": 47
+                            },
                             {
                               "goal_text": "filter [] (c0 \\ not (mem [] c0)) X10",
                               "goal_id": 48
@@ -4129,6 +4420,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -4213,13 +4505,22 @@
                               "goal_text": "mem [] (uvar frozen--452 [])",
                               "goal_id": 49
                             },
-                            { "goal_text": "!", "goal_id": 50 },
-                            { "goal_text": "fail", "goal_id": 51 }
+                            {
+                              "goal_text": "!",
+                              "goal_id": 50
+                            },
+                            {
+                              "goal_text": "fail",
+                              "goal_id": 51
+                            }
                           ],
                           "siblings_aggregated_outcome": "Fail"
                         }
                       ],
-                      "more_successful_attempts": [ 22 ],
+                      "more_successful_attempts": [
+                        22
+                      ],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -4312,8 +4613,14 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A0 := []" ],
-                              [ "Assign", "A1 := frozen--452" ]
+                              [
+                                "Assign",
+                                "A0 := []"
+                              ],
+                              [
+                                "Assign",
+                                "A1 := frozen--452"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -4326,6 +4633,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -4420,6 +4728,7 @@
                       "failed_attempts": [],
                       "successful_attempts": [],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -4537,6 +4846,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -4659,13 +4969,19 @@
                                 ]
                               }
                             ],
-                            "events": [ [ "Assign", "X10 := []" ] ]
+                            "events": [
+                              [
+                                "Assign",
+                                "X10 := []"
+                              ]
+                            ]
                           },
                           "siblings": [],
                           "siblings_aggregated_outcome": "Success"
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -4758,14 +5074,26 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A1 := uvar frozen--452 []" ],
-                              [ "Assign", "A3 := []" ],
-                              [ "Assign", "A0 := []" ],
+                              [
+                                "Assign",
+                                "A1 := uvar frozen--452 []"
+                              ],
+                              [
+                                "Assign",
+                                "A3 := []"
+                              ],
+                              [
+                                "Assign",
+                                "A0 := []"
+                              ],
                               [
                                 "Assign",
                                 "A4 := uvar frozen--452 [] ===> uvar frozen--452 []"
                               ],
-                              [ "Assign", "X3 := all X12 c0 \\ X13 c0" ]
+                              [
+                                "Assign",
+                                "X3 := all X12 c0 \\ X13 c0"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -4782,6 +5110,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -4859,7 +5188,10 @@
                                 "Assign",
                                 "A0 := mem [] (uvar frozen--452 [])"
                               ],
-                              [ "Assign", "A1 := X12 = eqt" ]
+                              [
+                                "Assign",
+                                "A1 := X12 = eqt"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -4867,13 +5199,22 @@
                               "goal_text": "mem [] (uvar frozen--452 [])",
                               "goal_id": 55
                             },
-                            { "goal_text": "!", "goal_id": 56 },
-                            { "goal_text": "X12 = eqt", "goal_id": 57 }
+                            {
+                              "goal_text": "!",
+                              "goal_id": 56
+                            },
+                            {
+                              "goal_text": "X12 = eqt",
+                              "goal_id": 57
+                            }
                           ],
                           "siblings_aggregated_outcome": "Fail"
                         }
                       ],
-                      "more_successful_attempts": [ 29 ],
+                      "more_successful_attempts": [
+                        29
+                      ],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -4966,8 +5307,14 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A0 := []" ],
-                              [ "Assign", "A1 := frozen--452" ]
+                              [
+                                "Assign",
+                                "A0 := []"
+                              ],
+                              [
+                                "Assign",
+                                "A1 := frozen--452"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -4980,6 +5327,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -5074,6 +5422,7 @@
                       "failed_attempts": [],
                       "successful_attempts": [],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -5184,15 +5533,24 @@
                                 ]
                               }
                             ],
-                            "events": [ [ "Assign", "A0 := X12 = any" ] ]
+                            "events": [
+                              [
+                                "Assign",
+                                "A0 := X12 = any"
+                              ]
+                            ]
                           },
                           "siblings": [
-                            { "goal_text": "X12 = any", "goal_id": 59 }
+                            {
+                              "goal_text": "X12 = any",
+                              "goal_id": 59
+                            }
                           ],
                           "siblings_aggregated_outcome": "Success"
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -5277,18 +5635,28 @@
                                 "payload": []
                               }
                             ],
-                            "events": [ [ "Assign", "X12 := any" ] ]
+                            "events": [
+                              [
+                                "Assign",
+                                "X12 := any"
+                              ]
+                            ]
                           },
                           "siblings": [],
                           "siblings_aggregated_outcome": "Success"
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
                             "BuiltinRule",
-                            { "name": "eq", "kind": "Logic", "payload": [] }
+                            {
+                              "name": "eq",
+                              "kind": "Logic",
+                              "payload": []
+                            }
                           ],
                           "step_id": 30,
                           "runtime_id": 1
@@ -5388,11 +5756,16 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
                             "BuiltinRule",
-                            { "name": "pi", "kind": "Logic", "payload": [] }
+                            {
+                              "name": "pi",
+                              "kind": "Logic",
+                              "payload": []
+                            }
                           ],
                           "step_id": 31,
                           "runtime_id": 1
@@ -5473,6 +5846,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -5491,7 +5865,11 @@
                         {
                           "rule": [
                             "BuiltinRule",
-                            { "name": "pi", "kind": "Logic", "payload": [] }
+                            {
+                              "name": "pi",
+                              "kind": "Logic",
+                              "payload": []
+                            }
                           ],
                           "step_id": 31,
                           "runtime_id": 1
@@ -5572,8 +5950,14 @@
                                 "Assign",
                                 "A0 := uvar frozen--452 [] ===> uvar frozen--452 []"
                               ],
-                              [ "Assign", "X13 := c0 \\\nX15 c0" ],
-                              [ "Assign", "X15^1 := mono X16^1" ]
+                              [
+                                "Assign",
+                                "X13 := c0 \\\nX15 c0"
+                              ],
+                              [
+                                "Assign",
+                                "X15^1 := mono X16^1"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -5586,6 +5970,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -5623,7 +6008,11 @@
                         {
                           "rule": [
                             "BuiltinRule",
-                            { "name": "pi", "kind": "Logic", "payload": [] }
+                            {
+                              "name": "pi",
+                              "kind": "Logic",
+                              "payload": []
+                            }
                           ],
                           "step_id": 31,
                           "runtime_id": 1
@@ -5700,9 +6089,18 @@
                               }
                             ],
                             "events": [
-                              [ "Assign", "A0 := uvar frozen--452 []" ],
-                              [ "Assign", "A2 := uvar frozen--452 []" ],
-                              [ "Assign", "X16^1 := X17^1 ===> X18^1" ]
+                              [
+                                "Assign",
+                                "A0 := uvar frozen--452 []"
+                              ],
+                              [
+                                "Assign",
+                                "A2 := uvar frozen--452 []"
+                              ],
+                              [
+                                "Assign",
+                                "X16^1 := X17^1 ===> X18^1"
+                              ]
                             ]
                           },
                           "siblings": [
@@ -5719,6 +6117,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -5775,7 +6174,11 @@
                         {
                           "rule": [
                             "BuiltinRule",
-                            { "name": "pi", "kind": "Logic", "payload": [] }
+                            {
+                              "name": "pi",
+                              "kind": "Logic",
+                              "payload": []
+                            }
                           ],
                           "step_id": 31,
                           "runtime_id": 1
@@ -5840,23 +6243,35 @@
                               "UserRule",
                               {
                                 "rule_text": "(copy (uvar frozen--452 []) c0) :- .",
-                                "rule_loc": [ "Context", 32 ]
+                                "rule_loc": [
+                                  "Context",
+                                  32
+                                ]
                               }
                             ],
-                            "events": [ [ "Assign", "X17^1 := c0" ] ]
+                            "events": [
+                              [
+                                "Assign",
+                                "X17^1 := c0"
+                              ]
+                            ]
                           },
                           "siblings": [],
                           "siblings_aggregated_outcome": "Success"
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
                             "UserRule",
                             {
                               "rule_text": "(copy (uvar frozen--452 []) c0) :- .",
-                              "rule_loc": [ "Context", 32 ]
+                              "rule_loc": [
+                                "Context",
+                                32
+                              ]
                             }
                           ],
                           "step_id": 35,
@@ -5917,7 +6332,11 @@
                         {
                           "rule": [
                             "BuiltinRule",
-                            { "name": "pi", "kind": "Logic", "payload": [] }
+                            {
+                              "name": "pi",
+                              "kind": "Logic",
+                              "payload": []
+                            }
                           ],
                           "step_id": 31,
                           "runtime_id": 1
@@ -5982,23 +6401,35 @@
                               "UserRule",
                               {
                                 "rule_text": "(copy (uvar frozen--452 []) c0) :- .",
-                                "rule_loc": [ "Context", 32 ]
+                                "rule_loc": [
+                                  "Context",
+                                  32
+                                ]
                               }
                             ],
-                            "events": [ [ "Assign", "X18^1 := c0" ] ]
+                            "events": [
+                              [
+                                "Assign",
+                                "X18^1 := c0"
+                              ]
+                            ]
                           },
                           "siblings": [],
                           "siblings_aggregated_outcome": "Success"
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
                             "UserRule",
                             {
                               "rule_text": "(copy (uvar frozen--452 []) c0) :- .",
-                              "rule_loc": [ "Context", 32 ]
+                              "rule_loc": [
+                                "Context",
+                                32
+                              ]
                             }
                           ],
                           "step_id": 36,
@@ -6059,7 +6490,11 @@
                         {
                           "rule": [
                             "BuiltinRule",
-                            { "name": "pi", "kind": "Logic", "payload": [] }
+                            {
+                              "name": "pi",
+                              "kind": "Logic",
+                              "payload": []
+                            }
                           ],
                           "step_id": 31,
                           "runtime_id": 1
@@ -6109,7 +6544,9 @@
                 }
               ]
             },
-            "chr_removed_goals": [ 25 ],
+            "chr_removed_goals": [
+              25
+            ],
             "chr_new_goals": [
               {
                 "goal_text": "_ => X1 = all any c0 \\ mono (c0 ===> c0)",
@@ -6123,10 +6560,16 @@
             "goal_text": " gammabar (mono (X5 ===> X5)) X1  /* suspended on X7 */",
             "goal_id": 25
           },
-          { "goal_text": " theta []  /* suspended on X7 */", "goal_id": 16 }
+          {
+            "goal_text": " theta []  /* suspended on X7 */",
+            "goal_id": 16
+          }
         ],
         "chr_store_after": [
-          { "goal_text": " theta []  /* suspended on X7 */", "goal_id": 16 }
+          {
+            "goal_text": " theta []  /* suspended on X7 */",
+            "goal_id": 16
+          }
         ]
       }
     ],
@@ -6147,7 +6590,11 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "implication", "kind": "Logic", "payload": [] }
+                {
+                  "name": "implication",
+                  "kind": "Logic",
+                  "payload": []
+                }
               ],
               "events": []
             },
@@ -6161,11 +6608,16 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
               "BuiltinRule",
-              { "name": "implication", "kind": "Logic", "payload": [] }
+              {
+                "name": "implication",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 18,
             "runtime_id": 0
@@ -6190,10 +6642,17 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "eq", "kind": "Logic", "payload": [] }
+                {
+                  "name": "eq",
+                  "kind": "Logic",
+                  "payload": []
+                }
               ],
               "events": [
-                [ "Assign", "X1 := all any c0 \\ mono (c0 ===> c0)" ]
+                [
+                  "Assign",
+                  "X1 := all any c0 \\ mono (c0 ===> c0)"
+                ]
               ]
             },
             "siblings": [],
@@ -6201,10 +6660,16 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
-              "BuiltinRule", { "name": "eq", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "eq",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 19,
             "runtime_id": 0
@@ -6212,7 +6677,11 @@
           {
             "rule": [
               "BuiltinRule",
-              { "name": "implication", "kind": "Logic", "payload": [] }
+              {
+                "name": "implication",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 18,
             "runtime_id": 0
@@ -6237,7 +6706,11 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "pi", "kind": "Logic", "payload": [] }
+                {
+                  "name": "pi",
+                  "kind": "Logic",
+                  "payload": []
+                }
               ],
               "events": []
             },
@@ -6251,10 +6724,16 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 20,
             "runtime_id": 0
@@ -6355,7 +6834,11 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "implication", "kind": "Logic", "payload": [] }
+                {
+                  "name": "implication",
+                  "kind": "Logic",
+                  "payload": []
+                }
               ],
               "events": []
             },
@@ -6369,6 +6852,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -6386,7 +6870,12 @@
           },
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 20,
             "runtime_id": 0
@@ -6501,19 +6990,35 @@
                 }
               ],
               "events": [
-                [ "Assign", "A0 := c0" ],
-                [ "Assign", "A3 := global []" ],
-                [ "Assign", "A2 := X3" ]
+                [
+                  "Assign",
+                  "A0 := c0"
+                ],
+                [
+                  "Assign",
+                  "A3 := global []"
+                ],
+                [
+                  "Assign",
+                  "A2 := X3"
+                ]
               ]
             },
             "siblings": [
-              { "goal_text": "of c0 (mono (X8^1 ===> X3))", "goal_id": 69 },
-              { "goal_text": "of (global []) (mono X8^1)", "goal_id": 70 }
+              {
+                "goal_text": "of c0 (mono (X8^1 ===> X3))",
+                "goal_id": 69
+              },
+              {
+                "goal_text": "of (global []) (mono X8^1)",
+                "goal_id": 70
+              }
             ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -6550,7 +7055,12 @@
           },
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 20,
             "runtime_id": 0
@@ -6651,7 +7161,10 @@
               "UserRule",
               {
                 "rule_text": "(of c0 (all any (c1 \\ (mono (c1 ===> c1))))) :- .",
-                "rule_loc": [ "Context", 21 ]
+                "rule_loc": [
+                  "Context",
+                  21
+                ]
               }
             ],
             "events": [
@@ -6681,11 +7194,21 @@
                 }
               ],
               "events": [
-                [ "Assign", "A0 := c0" ], [ "Assign", "A3 := X8^1 ===> X3" ]
+                [
+                  "Assign",
+                  "A0 := c0"
+                ],
+                [
+                  "Assign",
+                  "A3 := X8^1 ===> X3"
+                ]
               ]
             },
             "siblings": [
-              { "goal_text": "of c0 (all X9^1 X10^1)", "goal_id": 71 },
+              {
+                "goal_text": "of c0 (all X9^1 X10^1)",
+                "goal_id": 71
+              },
               {
                 "goal_text": "specialize (all X9^1 X10^1) (X8^1 ===> X3)",
                 "goal_id": 72
@@ -6695,13 +7218,17 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
               "UserRule",
               {
                 "rule_text": "(of c0 (all any (c1 \\ (mono (c1 ===> c1))))) :- .",
-                "rule_loc": [ "Context", 21 ]
+                "rule_loc": [
+                  "Context",
+                  21
+                ]
               }
             ],
             "step_id": 23,
@@ -6742,7 +7269,12 @@
           },
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 20,
             "runtime_id": 0
@@ -6845,12 +7377,21 @@
                 "UserRule",
                 {
                   "rule_text": "(of c0 (all any (c1 \\ (mono (c1 ===> c1))))) :- .",
-                  "rule_loc": [ "Context", 21 ]
+                  "rule_loc": [
+                    "Context",
+                    21
+                  ]
                 }
               ],
               "events": [
-                [ "Assign", "X9^1 := any" ],
-                [ "Assign", "X10^1 := c1 \\\nmono (c1 ===> c1)" ]
+                [
+                  "Assign",
+                  "X9^1 := any"
+                ],
+                [
+                  "Assign",
+                  "X10^1 := c1 \\\nmono (c1 ===> c1)"
+                ]
               ]
             },
             "siblings": [],
@@ -6858,13 +7399,17 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
               "UserRule",
               {
                 "rule_text": "(of c0 (all any (c1 \\ (mono (c1 ===> c1))))) :- .",
-                "rule_loc": [ "Context", 21 ]
+                "rule_loc": [
+                  "Context",
+                  21
+                ]
               }
             ],
             "step_id": 24,
@@ -6875,7 +7420,10 @@
               "UserRule",
               {
                 "rule_text": "(of c0 (all any (c1 \\ (mono (c1 ===> c1))))) :- .",
-                "rule_loc": [ "Context", 21 ]
+                "rule_loc": [
+                  "Context",
+                  21
+                ]
               }
             ],
             "step_id": 23,
@@ -6916,7 +7464,12 @@
           },
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 20,
             "runtime_id": 0
@@ -7031,8 +7584,14 @@
                 }
               ],
               "events": [
-                [ "Assign", "A1 := c1 \\\nmono (c1 ===> c1)" ],
-                [ "Assign", "A2 := X8^1 ===> X3" ]
+                [
+                  "Assign",
+                  "A1 := c1 \\\nmono (c1 ===> c1)"
+                ],
+                [
+                  "Assign",
+                  "A2 := X8^1 ===> X3"
+                ]
               ]
             },
             "siblings": [
@@ -7045,6 +7604,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -7070,7 +7630,10 @@
               "UserRule",
               {
                 "rule_text": "(of c0 (all any (c1 \\ (mono (c1 ===> c1))))) :- .",
-                "rule_loc": [ "Context", 21 ]
+                "rule_loc": [
+                  "Context",
+                  21
+                ]
               }
             ],
             "step_id": 23,
@@ -7111,7 +7674,12 @@
           },
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 20,
             "runtime_id": 0
@@ -7226,9 +7794,18 @@
                 }
               ],
               "events": [
-                [ "Assign", "A0 := X11^1 ===> X11^1" ],
-                [ "Assign", "X11 c0 := X8 c0" ],
-                [ "Assign", "X8 c0 := X3" ]
+                [
+                  "Assign",
+                  "A0 := X11^1 ===> X11^1"
+                ],
+                [
+                  "Assign",
+                  "X11 c0 := X8 c0"
+                ],
+                [
+                  "Assign",
+                  "X8 c0 := X3"
+                ]
               ]
             },
             "siblings": [],
@@ -7236,6 +7813,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -7280,7 +7858,10 @@
               "UserRule",
               {
                 "rule_text": "(of c0 (all any (c1 \\ (mono (c1 ===> c1))))) :- .",
-                "rule_loc": [ "Context", 21 ]
+                "rule_loc": [
+                  "Context",
+                  21
+                ]
               }
             ],
             "step_id": 23,
@@ -7321,7 +7902,12 @@
           },
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 20,
             "runtime_id": 0
@@ -7433,7 +8019,12 @@
                 ]
               }
             ],
-            "events": [ [ "Fail", "match global [] with global 1" ] ]
+            "events": [
+              [
+                "Fail",
+                "match global [] with global 1"
+              ]
+            ]
           },
           {
             "rule": [
@@ -7451,7 +8042,12 @@
                 ]
               }
             ],
-            "events": [ [ "Fail", "match global [] with global 2" ] ]
+            "events": [
+              [
+                "Fail",
+                "match global [] with global 2"
+              ]
+            ]
           },
           {
             "rule": [
@@ -7469,7 +8065,12 @@
                 ]
               }
             ],
-            "events": [ [ "Fail", "match global [] with global 3" ] ]
+            "events": [
+              [
+                "Fail",
+                "match global [] with global 3"
+              ]
+            ]
           },
           {
             "rule": [
@@ -7487,7 +8088,12 @@
                 ]
               }
             ],
-            "events": [ [ "Fail", "match global [] with global plus" ] ]
+            "events": [
+              [
+                "Fail",
+                "match global [] with global plus"
+              ]
+            ]
           },
           {
             "rule": [
@@ -7506,7 +8112,10 @@
               }
             ],
             "events": [
-              [ "Fail", "unify mono X3 with all any c0 \\ mono (list c0)" ]
+              [
+                "Fail",
+                "unify mono X3 with all any c0 \\ mono (list c0)"
+              ]
             ]
           },
           {
@@ -7525,7 +8134,12 @@
                 ]
               }
             ],
-            "events": [ [ "Fail", "match global [] with global ::" ] ]
+            "events": [
+              [
+                "Fail",
+                "match global [] with global ::"
+              ]
+            ]
           },
           {
             "rule": [
@@ -7543,7 +8157,12 @@
                 ]
               }
             ],
-            "events": [ [ "Fail", "match global [] with global size" ] ]
+            "events": [
+              [
+                "Fail",
+                "match global [] with global size"
+              ]
+            ]
           },
           {
             "rule": [
@@ -7561,7 +8180,12 @@
                 ]
               }
             ],
-            "events": [ [ "Fail", "match global [] with global undup" ] ]
+            "events": [
+              [
+                "Fail",
+                "match global [] with global undup"
+              ]
+            ]
           },
           {
             "rule": [
@@ -7579,7 +8203,12 @@
                 ]
               }
             ],
-            "events": [ [ "Fail", "match global [] with global ," ] ]
+            "events": [
+              [
+                "Fail",
+                "match global [] with global ,"
+              ]
+            ]
           }
         ],
         "successful_attempts": [
@@ -7601,7 +8230,14 @@
                 }
               ],
               "events": [
-                [ "Assign", "A0 := global []" ], [ "Assign", "A3 := X3" ]
+                [
+                  "Assign",
+                  "A0 := global []"
+                ],
+                [
+                  "Assign",
+                  "A3 := X3"
+                ]
               ]
             },
             "siblings": [
@@ -7618,6 +8254,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -7673,7 +8310,12 @@
           },
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 20,
             "runtime_id": 0
@@ -7785,7 +8427,12 @@
                 ]
               }
             ],
-            "events": [ [ "Fail", "match global [] with global 1" ] ]
+            "events": [
+              [
+                "Fail",
+                "match global [] with global 1"
+              ]
+            ]
           },
           {
             "rule": [
@@ -7803,7 +8450,12 @@
                 ]
               }
             ],
-            "events": [ [ "Fail", "match global [] with global 2" ] ]
+            "events": [
+              [
+                "Fail",
+                "match global [] with global 2"
+              ]
+            ]
           },
           {
             "rule": [
@@ -7821,7 +8473,12 @@
                 ]
               }
             ],
-            "events": [ [ "Fail", "match global [] with global 3" ] ]
+            "events": [
+              [
+                "Fail",
+                "match global [] with global 3"
+              ]
+            ]
           },
           {
             "rule": [
@@ -7839,7 +8496,12 @@
                 ]
               }
             ],
-            "events": [ [ "Fail", "match global [] with global plus" ] ]
+            "events": [
+              [
+                "Fail",
+                "match global [] with global plus"
+              ]
+            ]
           }
         ],
         "successful_attempts": [
@@ -7861,8 +8523,14 @@
                 }
               ],
               "events": [
-                [ "Assign", "X12^1 := any" ],
-                [ "Assign", "X13^1 := c1 \\\nmono (list c1)" ]
+                [
+                  "Assign",
+                  "X12^1 := any"
+                ],
+                [
+                  "Assign",
+                  "X13^1 := c1 \\\nmono (list c1)"
+                ]
               ]
             },
             "siblings": [],
@@ -7870,6 +8538,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -7944,7 +8613,12 @@
           },
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 20,
             "runtime_id": 0
@@ -8059,8 +8733,14 @@
                 }
               ],
               "events": [
-                [ "Assign", "A1 := c1 \\\nmono (list c1)" ],
-                [ "Assign", "A2 := X3" ]
+                [
+                  "Assign",
+                  "A1 := c1 \\\nmono (list c1)"
+                ],
+                [
+                  "Assign",
+                  "A2 := X3"
+                ]
               ]
             },
             "siblings": [
@@ -8073,6 +8753,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -8147,7 +8828,12 @@
           },
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 20,
             "runtime_id": 0
@@ -8262,10 +8948,22 @@
                 }
               ],
               "events": [
-                [ "Assign", "A0 := list X14^1" ],
-                [ "Assign", "X14^1 := X15 c0" ],
-                [ "Assign", "0 X15 c0 := c0 \\\n.X16" ],
-                [ "Assign", "X3 := list X16" ]
+                [
+                  "Assign",
+                  "A0 := list X14^1"
+                ],
+                [
+                  "Assign",
+                  "X14^1 := X15 c0"
+                ],
+                [
+                  "Assign",
+                  "0 X15 c0 := c0 \\\n.X16"
+                ],
+                [
+                  "Assign",
+                  "X3 := list X16"
+                ]
               ]
             },
             "siblings": [],
@@ -8273,6 +8971,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -8366,7 +9065,12 @@
           },
           {
             "rule": [
-              "BuiltinRule", { "name": "pi", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "pi",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 20,
             "runtime_id": 0
@@ -8984,7 +9688,11 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "print", "kind": "FFI", "payload": [] }
+                {
+                  "name": "print",
+                  "kind": "FFI",
+                  "payload": []
+                }
               ],
               "events": []
             },
@@ -8993,11 +9701,16 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
               "BuiltinRule",
-              { "name": "print", "kind": "FFI", "payload": [] }
+              {
+                "name": "print",
+                "kind": "FFI",
+                "payload": []
+              }
             ],
             "step_id": 32,
             "runtime_id": 0
@@ -9079,7 +9792,11 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "print", "kind": "FFI", "payload": [] }
+                {
+                  "name": "print",
+                  "kind": "FFI",
+                  "payload": []
+                }
               ],
               "events": []
             },
@@ -9088,11 +9805,16 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
               "BuiltinRule",
-              { "name": "print", "kind": "FFI", "payload": [] }
+              {
+                "name": "print",
+                "kind": "FFI",
+                "payload": []
+              }
             ],
             "step_id": 33,
             "runtime_id": 0

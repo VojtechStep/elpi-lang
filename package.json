@@ -153,8 +153,10 @@
 		"lint": "eslint . --ext .ts,.tsx",
 		"watch": "npm run compile -- -w",
     "watch:tests": "npm run compile:tests -- -w",
-    "run:test": "node ./out/tests/index.mjs",
-    "test": "npm run compile:tests && cp -r ./src/tests/sources ./out/tests/ && npm run run:test",
+    "run:test": "node --test './out/**/*.test.mjs'",
+    "run:promote": "node --test-update-snapshots --test './**/*.test.mjs'",
+    "test": "npm run compile:tests && npm run run:test",
+    "promote": "npm run compile:tests && npm run run:promote",
 		"deploy": "vsce publish"
 	},
 	"devDependencies": {

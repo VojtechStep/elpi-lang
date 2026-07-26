@@ -2,7 +2,13 @@
   {
     "step_id": 0,
     "runtime_id": 0,
-    "step": [ "Init", { "goal_text": "main", "goal_id": 4 } ],
+    "step": [
+      "Init",
+      {
+        "goal_text": "main",
+        "goal_id": 4
+      }
+    ],
     "color": "Grey"
   },
   {
@@ -35,11 +41,17 @@
               ],
               "events": []
             },
-            "siblings": [ { "goal_text": "p X0 3", "goal_id": 5 } ],
+            "siblings": [
+              {
+                "goal_text": "p X0 3",
+                "goal_id": 5
+              }
+            ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -92,7 +104,14 @@
               }
             ],
             "events": [
-              [ "Assign", "X0 := 1" ], [ "Fail", "unify 3 with 1" ]
+              [
+                "Assign",
+                "X0 := 1"
+              ],
+              [
+                "Fail",
+                "unify 3 with 1"
+              ]
             ]
           },
           {
@@ -112,7 +131,14 @@
               }
             ],
             "events": [
-              [ "Assign", "X0 := 2" ], [ "Fail", "unify 3 with 2" ]
+              [
+                "Assign",
+                "X0 := 2"
+              ],
+              [
+                "Fail",
+                "unify 3 with 2"
+              ]
             ]
           }
         ],
@@ -134,13 +160,27 @@
                   ]
                 }
               ],
-              "events": [ [ "Assign", "X0 := 3" ] ]
+              "events": [
+                [
+                  "Assign",
+                  "X0 := 3"
+                ]
+              ]
             },
-            "siblings": [ { "goal_text": "fail", "goal_id": 6 } ],
+            "siblings": [
+              {
+                "goal_text": "fail",
+                "goal_id": 6
+              }
+            ],
             "siblings_aggregated_outcome": "Fail"
           }
         ],
-        "more_successful_attempts": [ 4, 6 ],
+        "more_successful_attempts": [
+          4,
+          6
+        ],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -197,6 +237,7 @@
         "failed_attempts": [],
         "successful_attempts": [],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -268,7 +309,14 @@
               }
             ],
             "events": [
-              [ "Assign", "X0 := 4" ], [ "Fail", "unify 3 with 1" ]
+              [
+                "Assign",
+                "X0 := 4"
+              ],
+              [
+                "Fail",
+                "unify 3 with 1"
+              ]
             ]
           },
           {
@@ -288,7 +336,14 @@
               }
             ],
             "events": [
-              [ "Assign", "X0 := 4" ], [ "Fail", "unify 3 with 2" ]
+              [
+                "Assign",
+                "X0 := 4"
+              ],
+              [
+                "Fail",
+                "unify 3 with 2"
+              ]
             ]
           }
         ],
@@ -310,13 +365,26 @@
                   ]
                 }
               ],
-              "events": [ [ "Assign", "X0 := 4" ] ]
+              "events": [
+                [
+                  "Assign",
+                  "X0 := 4"
+                ]
+              ]
             },
-            "siblings": [ { "goal_text": "fail", "goal_id": 7 } ],
+            "siblings": [
+              {
+                "goal_text": "fail",
+                "goal_id": 7
+              }
+            ],
             "siblings_aggregated_outcome": "Fail"
           }
         ],
-        "more_successful_attempts": [ 6 ],
+        "more_successful_attempts": [
+          6
+        ],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -373,6 +441,7 @@
         "failed_attempts": [],
         "successful_attempts": [],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -445,13 +514,19 @@
                   ]
                 }
               ],
-              "events": [ [ "Assign", "X0 := 5" ] ]
+              "events": [
+                [
+                  "Assign",
+                  "X0 := 5"
+                ]
+              ]
             },
             "siblings": [],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [

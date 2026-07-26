@@ -2,7 +2,13 @@
   {
     "step_id": 0,
     "runtime_id": 0,
-    "step": [ "Init", { "goal_text": "main", "goal_id": 4 } ],
+    "step": [
+      "Init",
+      {
+        "goal_text": "main",
+        "goal_id": 4
+      }
+    ],
     "color": "Grey"
   },
   {
@@ -35,11 +41,19 @@
               ],
               "events": []
             },
-            "siblings": [ { "goal_text": "p", "goal_id": 5 } ],
+            "siblings": [
+              {
+                "goal_text": "p",
+                "goal_id": 5
+              }
+            ],
             "siblings_aggregated_outcome": "Fail"
           }
         ],
-        "more_successful_attempts": [ 7 ],
+        "more_successful_attempts": [
+          7
+        ],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -95,11 +109,19 @@
               ],
               "events": []
             },
-            "siblings": [ { "goal_text": "fail", "goal_id": 6 } ],
+            "siblings": [
+              {
+                "goal_text": "fail",
+                "goal_id": 6
+              }
+            ],
             "siblings_aggregated_outcome": "Fail"
           }
         ],
-        "more_successful_attempts": [ 4 ],
+        "more_successful_attempts": [
+          4
+        ],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -156,6 +178,7 @@
         "failed_attempts": [],
         "successful_attempts": [],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -231,13 +254,20 @@
               "events": []
             },
             "siblings": [
-              { "goal_text": "!", "goal_id": 7 },
-              { "goal_text": "fail", "goal_id": 8 }
+              {
+                "goal_text": "!",
+                "goal_id": 7
+              },
+              {
+                "goal_text": "fail",
+                "goal_id": 8
+              }
             ],
             "siblings_aggregated_outcome": "Fail"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -291,7 +321,10 @@
         "cut_goal_id": 7,
         "cut_victims": [
           {
-            "cut_branch_for_goal": { "goal_text": "p", "goal_id": 5 },
+            "cut_branch_for_goal": {
+              "goal_text": "p",
+              "goal_id": 5
+            },
             "cut_branch": {
               "rule_text": "p :- .",
               "rule_loc": [
@@ -306,7 +339,10 @@
             }
           },
           {
-            "cut_branch_for_goal": { "goal_text": "p", "goal_id": 5 },
+            "cut_branch_for_goal": {
+              "goal_text": "p",
+              "goal_id": 5
+            },
             "cut_branch": {
               "rule_text": "p :- (print 1).",
               "rule_loc": [
@@ -337,6 +373,7 @@
         "failed_attempts": [],
         "successful_attempts": [],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -412,14 +449,24 @@
               "events": []
             },
             "siblings": [
-              { "goal_text": "q", "goal_id": 9 },
-              { "goal_text": "!", "goal_id": 10 },
-              { "goal_text": "q => (q :- !) => q", "goal_id": 11 }
+              {
+                "goal_text": "q",
+                "goal_id": 9
+              },
+              {
+                "goal_text": "!",
+                "goal_id": 10
+              },
+              {
+                "goal_text": "q => (q :- !) => q",
+                "goal_id": 11
+              }
             ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -480,6 +527,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -533,7 +581,10 @@
         "cut_goal_id": 10,
         "cut_victims": [
           {
-            "cut_branch_for_goal": { "goal_text": "q", "goal_id": 9 },
+            "cut_branch_for_goal": {
+              "goal_text": "q",
+              "goal_id": 9
+            },
             "cut_branch": {
               "rule_text": "q :- (print 2).",
               "rule_loc": [
@@ -567,15 +618,25 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "implication", "kind": "Logic", "payload": [] }
+                {
+                  "name": "implication",
+                  "kind": "Logic",
+                  "payload": []
+                }
               ],
               "events": []
             },
-            "siblings": [ { "goal_text": "(q :- !) => q", "goal_id": 12 } ],
+            "siblings": [
+              {
+                "goal_text": "(q :- !) => q",
+                "goal_id": 12
+              }
+            ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -583,7 +644,9 @@
               {
                 "name": "implication",
                 "kind": "Logic",
-                "payload": [ "q :- ." ]
+                "payload": [
+                  "q :- ."
+                ]
               }
             ],
             "step_id": 10,
@@ -628,15 +691,25 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "implication", "kind": "Logic", "payload": [] }
+                {
+                  "name": "implication",
+                  "kind": "Logic",
+                  "payload": []
+                }
               ],
               "events": []
             },
-            "siblings": [ { "goal_text": "q", "goal_id": 13 } ],
+            "siblings": [
+              {
+                "goal_text": "q",
+                "goal_id": 13
+              }
+            ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -644,7 +717,9 @@
               {
                 "name": "implication",
                 "kind": "Logic",
-                "payload": [ "q :- !." ]
+                "payload": [
+                  "q :- !."
+                ]
               }
             ],
             "step_id": 11,
@@ -656,7 +731,9 @@
               {
                 "name": "implication",
                 "kind": "Logic",
-                "payload": [ "q :- ." ]
+                "payload": [
+                  "q :- ."
+                ]
               }
             ],
             "step_id": 10,
@@ -701,20 +778,38 @@
             "attempt": {
               "rule": [
                 "UserRule",
-                { "rule_text": "q :- !.", "rule_loc": [ "Context", 11 ] }
+                {
+                  "rule_text": "q :- !.",
+                  "rule_loc": [
+                    "Context",
+                    11
+                  ]
+                }
               ],
               "events": []
             },
-            "siblings": [ { "goal_text": "!", "goal_id": 14 } ],
+            "siblings": [
+              {
+                "goal_text": "!",
+                "goal_id": 14
+              }
+            ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
               "UserRule",
-              { "rule_text": "q :- !.", "rule_loc": [ "Context", 11 ] }
+              {
+                "rule_text": "q :- !.",
+                "rule_loc": [
+                  "Context",
+                  11
+                ]
+              }
             ],
             "step_id": 12,
             "runtime_id": 0
@@ -725,7 +820,9 @@
               {
                 "name": "implication",
                 "kind": "Logic",
-                "payload": [ "q :- !." ]
+                "payload": [
+                  "q :- !."
+                ]
               }
             ],
             "step_id": 11,
@@ -737,7 +834,9 @@
               {
                 "name": "implication",
                 "kind": "Logic",
-                "payload": [ "q :- ." ]
+                "payload": [
+                  "q :- ."
+                ]
               }
             ],
             "step_id": 10,
@@ -776,14 +875,23 @@
         "cut_goal_id": 14,
         "cut_victims": [
           {
-            "cut_branch_for_goal": { "goal_text": "q", "goal_id": 13 },
+            "cut_branch_for_goal": {
+              "goal_text": "q",
+              "goal_id": 13
+            },
             "cut_branch": {
               "rule_text": "q :- .",
-              "rule_loc": [ "Context", 10 ]
+              "rule_loc": [
+                "Context",
+                10
+              ]
             }
           },
           {
-            "cut_branch_for_goal": { "goal_text": "q", "goal_id": 13 },
+            "cut_branch_for_goal": {
+              "goal_text": "q",
+              "goal_id": 13
+            },
             "cut_branch": {
               "rule_text": "q :- .",
               "rule_loc": [
@@ -798,7 +906,10 @@
             }
           },
           {
-            "cut_branch_for_goal": { "goal_text": "q", "goal_id": 13 },
+            "cut_branch_for_goal": {
+              "goal_text": "q",
+              "goal_id": 13
+            },
             "cut_branch": {
               "rule_text": "q :- (print 2).",
               "rule_loc": [

@@ -2,7 +2,13 @@
   {
     "step_id": 0,
     "runtime_id": 0,
-    "step": [ "Init", { "goal_text": "main", "goal_id": 4 } ],
+    "step": [
+      "Init",
+      {
+        "goal_text": "main",
+        "goal_id": 4
+      }
+    ],
     "color": "Grey"
   },
   {
@@ -36,15 +42,28 @@
               "events": []
             },
             "siblings": [
-              { "goal_text": "even X0", "goal_id": 5 },
-              { "goal_text": "declare_constraint true X0", "goal_id": 6 },
-              { "goal_text": "X0 = s X1", "goal_id": 7 },
-              { "goal_text": "not (even X1)", "goal_id": 8 }
+              {
+                "goal_text": "even X0",
+                "goal_id": 5
+              },
+              {
+                "goal_text": "declare_constraint true X0",
+                "goal_id": 6
+              },
+              {
+                "goal_text": "X0 = s X1",
+                "goal_id": 7
+              },
+              {
+                "goal_text": "not (even X1)",
+                "goal_id": 8
+              }
             ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -98,7 +117,12 @@
                   ]
                 }
               ],
-              "events": [ [ "Assign", "A0 := X0" ] ]
+              "events": [
+                [
+                  "Assign",
+                  "A0 := X0"
+                ]
+              ]
             },
             "siblings": [
               {
@@ -110,6 +134,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -162,12 +187,19 @@
       {
         "suspend_goal_id": 9,
         "suspend_goal_text": "declare_constraint (even X0) X0",
-        "suspend_sibling": { "goal_text": "even X0", "goal_id": 10 },
+        "suspend_sibling": {
+          "goal_text": "even X0",
+          "goal_id": 10
+        },
         "suspend_stack": [
           {
             "rule": [
               "BuiltinRule",
-              { "name": "suspend", "kind": "Logic", "payload": [] }
+              {
+                "name": "suspend",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 3,
             "runtime_id": 0
@@ -223,12 +255,19 @@
       {
         "suspend_goal_id": 6,
         "suspend_goal_text": "declare_constraint true X0",
-        "suspend_sibling": { "goal_text": "true", "goal_id": 11 },
+        "suspend_sibling": {
+          "goal_text": "true",
+          "goal_id": 11
+        },
         "suspend_stack": [
           {
             "rule": [
               "BuiltinRule",
-              { "name": "suspend", "kind": "Logic", "payload": [] }
+              {
+                "name": "suspend",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 4,
             "runtime_id": 0
@@ -272,10 +311,24 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "eq", "kind": "Logic", "payload": [] }
+                {
+                  "name": "eq",
+                  "kind": "Logic",
+                  "payload": []
+                }
               ],
               "events": [
-                [ "Assign", "X0 := s X1" ], [ "ResumeGoal", [ 11, 10 ] ]
+                [
+                  "Assign",
+                  "X0 := s X1"
+                ],
+                [
+                  "ResumeGoal",
+                  [
+                    11,
+                    10
+                  ]
+                ]
               ]
             },
             "siblings": [],
@@ -283,10 +336,16 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
-              "BuiltinRule", { "name": "eq", "kind": "Logic", "payload": [] }
+              "BuiltinRule",
+              {
+                "name": "eq",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 5,
             "runtime_id": 0
@@ -321,8 +380,14 @@
     "step": [
       "Resume",
       [
-        { "goal_text": "true", "goal_id": 11 },
-        { "goal_text": "even (s X1)", "goal_id": 10 }
+        {
+          "goal_text": "true",
+          "goal_id": 11
+        },
+        {
+          "goal_text": "even (s X1)",
+          "goal_id": 10
+        }
       ]
     ],
     "color": "Grey"
@@ -362,6 +427,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -385,7 +451,11 @@
           {
             "rule": [
               "BuiltinRule",
-              { "name": "resume", "kind": "Logic", "payload": [] }
+              {
+                "name": "resume",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 6,
             "runtime_id": 0
@@ -393,7 +463,11 @@
           {
             "rule": [
               "BuiltinRule",
-              { "name": "suspend", "kind": "Logic", "payload": [] }
+              {
+                "name": "suspend",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 4,
             "runtime_id": 0
@@ -450,13 +524,24 @@
                   ]
                 }
               ],
-              "events": [ [ "Assign", "A0 := X1" ] ]
+              "events": [
+                [
+                  "Assign",
+                  "A0 := X1"
+                ]
+              ]
             },
-            "siblings": [ { "goal_text": "odd X1", "goal_id": 12 } ],
+            "siblings": [
+              {
+                "goal_text": "odd X1",
+                "goal_id": 12
+              }
+            ],
             "siblings_aggregated_outcome": "Success"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -480,7 +565,11 @@
           {
             "rule": [
               "BuiltinRule",
-              { "name": "resume", "kind": "Logic", "payload": [] }
+              {
+                "name": "resume",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 6,
             "runtime_id": 0
@@ -488,7 +577,11 @@
           {
             "rule": [
               "BuiltinRule",
-              { "name": "suspend", "kind": "Logic", "payload": [] }
+              {
+                "name": "suspend",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 3,
             "runtime_id": 0
@@ -564,7 +657,12 @@
                   ]
                 }
               ],
-              "events": [ [ "Assign", "A0 := X1" ] ]
+              "events": [
+                [
+                  "Assign",
+                  "A0 := X1"
+                ]
+              ]
             },
             "siblings": [
               {
@@ -576,6 +674,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -618,7 +717,11 @@
           {
             "rule": [
               "BuiltinRule",
-              { "name": "resume", "kind": "Logic", "payload": [] }
+              {
+                "name": "resume",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 6,
             "runtime_id": 0
@@ -626,7 +729,11 @@
           {
             "rule": [
               "BuiltinRule",
-              { "name": "suspend", "kind": "Logic", "payload": [] }
+              {
+                "name": "suspend",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 3,
             "runtime_id": 0
@@ -682,12 +789,19 @@
       {
         "suspend_goal_id": 13,
         "suspend_goal_text": "declare_constraint (odd X1) X1",
-        "suspend_sibling": { "goal_text": "odd X1", "goal_id": 14 },
+        "suspend_sibling": {
+          "goal_text": "odd X1",
+          "goal_id": 14
+        },
         "suspend_stack": [
           {
             "rule": [
               "BuiltinRule",
-              { "name": "suspend", "kind": "Logic", "payload": [] }
+              {
+                "name": "suspend",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 10,
             "runtime_id": 0
@@ -733,7 +847,11 @@
           {
             "rule": [
               "BuiltinRule",
-              { "name": "resume", "kind": "Logic", "payload": [] }
+              {
+                "name": "resume",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 6,
             "runtime_id": 0
@@ -741,7 +859,11 @@
           {
             "rule": [
               "BuiltinRule",
-              { "name": "suspend", "kind": "Logic", "payload": [] }
+              {
+                "name": "suspend",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 3,
             "runtime_id": 0
@@ -817,17 +939,34 @@
                   ]
                 }
               ],
-              "events": [ [ "Assign", "A0 := even X1" ] ]
+              "events": [
+                [
+                  "Assign",
+                  "A0 := even X1"
+                ]
+              ]
             },
             "siblings": [
-              { "goal_text": "even X1", "goal_id": 15 },
-              { "goal_text": "!", "goal_id": 16 },
-              { "goal_text": "fail", "goal_id": 17 }
+              {
+                "goal_text": "even X1",
+                "goal_id": 15
+              },
+              {
+                "goal_text": "!",
+                "goal_id": 16
+              },
+              {
+                "goal_text": "fail",
+                "goal_id": 17
+              }
             ],
             "siblings_aggregated_outcome": "Fail"
           }
         ],
-        "more_successful_attempts": [ 17 ],
+        "more_successful_attempts": [
+          17
+        ],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -900,7 +1039,12 @@
                   ]
                 }
               ],
-              "events": [ [ "Assign", "A0 := X1" ] ]
+              "events": [
+                [
+                  "Assign",
+                  "A0 := X1"
+                ]
+              ]
             },
             "siblings": [
               {
@@ -912,6 +1056,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
@@ -983,12 +1128,19 @@
       {
         "suspend_goal_id": 18,
         "suspend_goal_text": "declare_constraint (even X1) X1",
-        "suspend_sibling": { "goal_text": "even X1", "goal_id": 19 },
+        "suspend_sibling": {
+          "goal_text": "even X1",
+          "goal_id": 19
+        },
         "suspend_stack": [
           {
             "rule": [
               "BuiltinRule",
-              { "name": "suspend", "kind": "Logic", "payload": [] }
+              {
+                "name": "suspend",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 13,
             "runtime_id": 0
@@ -1074,7 +1226,13 @@
               {
                 "step_id": 0,
                 "runtime_id": 1,
-                "step": [ "Init", { "goal_text": "odd z", "goal_id": 20 } ],
+                "step": [
+                  "Init",
+                  {
+                    "goal_text": "odd z",
+                    "goal_id": 20
+                  }
+                ],
                 "color": "Grey"
               },
               {
@@ -1089,6 +1247,7 @@
                     "failed_attempts": [],
                     "successful_attempts": [],
                     "more_successful_attempts": [],
+                    "more_failing_attempts": [],
                     "stack": []
                   }
                 ],
@@ -1112,7 +1271,11 @@
                   "step_id": 0,
                   "runtime_id": 2,
                   "step": [
-                    "Init", { "goal_text": "odd (s z)", "goal_id": 21 }
+                    "Init",
+                    {
+                      "goal_text": "odd (s z)",
+                      "goal_id": 21
+                    }
                   ],
                   "color": "Grey"
                 },
@@ -1144,15 +1307,24 @@
                                 ]
                               }
                             ],
-                            "events": [ [ "Assign", "A0 := z" ] ]
+                            "events": [
+                              [
+                                "Assign",
+                                "A0 := z"
+                              ]
+                            ]
                           },
                           "siblings": [
-                            { "goal_text": "even z", "goal_id": 22 }
+                            {
+                              "goal_text": "even z",
+                              "goal_id": 22
+                            }
                           ],
                           "siblings_aggregated_outcome": "Success"
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -1213,6 +1385,7 @@
                         }
                       ],
                       "more_successful_attempts": [],
+                      "more_failing_attempts": [],
                       "stack": [
                         {
                           "rule": [
@@ -1259,13 +1432,27 @@
                 }
               ]
             },
-            "chr_removed_goals": [ 19, 14 ],
-            "chr_new_goals": [ { "goal_text": "_ => fail", "goal_id": 23 } ]
+            "chr_removed_goals": [
+              19,
+              14
+            ],
+            "chr_new_goals": [
+              {
+                "goal_text": "_ => fail",
+                "goal_id": 23
+              }
+            ]
           }
         ],
         "chr_store_before": [
-          { "goal_text": " even X1  /* suspended on X1 */", "goal_id": 19 },
-          { "goal_text": " odd X1  /* suspended on X1 */", "goal_id": 14 }
+          {
+            "goal_text": " even X1  /* suspended on X1 */",
+            "goal_id": 19
+          },
+          {
+            "goal_text": " odd X1  /* suspended on X1 */",
+            "goal_id": 14
+          }
         ],
         "chr_store_after": []
       }
@@ -1287,20 +1474,34 @@
             "attempt": {
               "rule": [
                 "BuiltinRule",
-                { "name": "implication", "kind": "Logic", "payload": [] }
+                {
+                  "name": "implication",
+                  "kind": "Logic",
+                  "payload": []
+                }
               ],
               "events": []
             },
-            "siblings": [ { "goal_text": "fail", "goal_id": 24 } ],
+            "siblings": [
+              {
+                "goal_text": "fail",
+                "goal_id": 24
+              }
+            ],
             "siblings_aggregated_outcome": "Fail"
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
               "BuiltinRule",
-              { "name": "implication", "kind": "Logic", "payload": [] }
+              {
+                "name": "implication",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 15,
             "runtime_id": 0
@@ -1322,11 +1523,16 @@
         "failed_attempts": [],
         "successful_attempts": [],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
               "BuiltinRule",
-              { "name": "implication", "kind": "Logic", "payload": [] }
+              {
+                "name": "implication",
+                "kind": "Logic",
+                "payload": []
+              }
             ],
             "step_id": 15,
             "runtime_id": 0
@@ -1371,6 +1577,7 @@
           }
         ],
         "more_successful_attempts": [],
+        "more_failing_attempts": [],
         "stack": [
           {
             "rule": [
