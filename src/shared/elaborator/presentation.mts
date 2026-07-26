@@ -73,6 +73,7 @@ type Inference = {
 
 type PreStep =
   | R<'Init', { goalId: GoalId, goal: string }>
+  // TODO: why are these called "TODO"?
   | R<'Findall_TODO', { goal: string, goalId: GoalId, timestamp: Timestamp, result: string[] }>
   | R<'CHR_TODO', { failed: CHRAttempt[], successful: CHRAttempt[], storeBefore: Constraint[], storeAfter: Constraint[] }>
   | R<'Cut', { goalId: GoalId, cuts: PreCut[] }>
@@ -273,16 +274,25 @@ export function materialize(
           throw new Unreachable(step.action);
         }
 
-        // TODO: merge these nicely
-        const moreFailed = analysis.attempts.get(step.goalId)?.failing
-          .filter(i => i.runtime === stepId.runtime && i.step > stepId.step)
-          .map(i => i.step) ?? [];
+        const more = (ids?: StepId[]): StepIdx[] =>
+          ids?.filter(i => i.runtime === stepId.runtime && i.step > stepId.step)
+            .map(i => i.step) ?? [];
+        let moreFailed: StepIdx[] = [];
+        let moreSuccessful: StepIdx[] = [];
+        {
+          const attempts = analysis.attempts.get(step.goalId);
+          if (attempts) {
+            moreFailed = more(attempts.failing);
+            moreSuccessful = more(attempts.successful)
+          }
+        }
         moreFailed.sort();
-        const moreSuccessful = analysis.attempts.get(step.goalId)?.successful
-          .filter(i => i.runtime === stepId.runtime && i.step > stepId.step)
-          .map(i => i.step) ?? [];
         moreSuccessful.sort();
-        // TODO: assert that no successful -> no more successful
+        if (successful === null && moreSuccessful.length !== 0) {
+          throw new CardError(
+            'A failed attempt may not have "more successful" attempts'
+          )
+        }
         preStep = {
           kind: 'Inference',
           goalId: step.goalId,
@@ -320,13 +330,22 @@ export function materialize(
   const toChrAttempt = (a: CHRAttempt): C.ChrAttempt => {
     if (a.loc.kind !== 'File')
       throw new CardError(`CHR attempt had a non-file location ${a.loc}`);
-    // TODO: port sanity checks
+    const conditionCards = preCards
+      .filter(p => contained(a.timestamp, p.timestamp))
+      .map(preCardToCard);
+    // TODO: catch this earlier?
+    if (conditionCards.length !== 0) {
+      const rid = conditionCards[0]?.runtime_id;
+      if (!conditionCards.every(c => c.runtime_id === rid)) {
+        throw new CardError(
+          'All steps in a CHR attempt are expected to have the same runtime ID'
+        )
+      }
+    }
     return {
       chr_loc: a.loc.file,
       chr_text: a.code,
-      chr_condition_cards: preCards
-        .filter(p => contained(a.timestamp, p.timestamp))
-        .map(preCardToCard)
+      chr_condition_cards: conditionCards
     }
   };
 
@@ -451,20 +470,29 @@ export function materialize(
           } },
           color: { kind: 'Grey' }
         }
-      case 'Findall_TODO':
+      case 'Findall_TODO': {
+        const innerCards = preCards
+          .filter(p => contained(step.timestamp, p.timestamp))
+          .map(preCardToCard);
+        const rid = innerCards[0]?.runtime_id;
+        // TODO: check this sooner
+        if (!innerCards.every(c => c.runtime_id === rid)) {
+          throw new CardError(
+            'All steps in a findall run are expected to have the same runtime ID'
+          )
+        }
         return {
           ...base,
           step: { kind: 'Findall', value: {
             findall_goal_id: step.goalId,
             findall_goal_text: step.goal,
-            findall_cards: preCards
-              .filter(p => contained(step.timestamp, p.timestamp))
-              .map(preCardToCard),
+            findall_cards: innerCards,
             findall_solution_text: step.result,
             findall_stack: getStack(stepId, elaboration.stackFrames).map(toFrame)
           } },
           color: { kind: 'Green' }
         }
+      }
       default:
         throw new Unreachable(step)
     }
