@@ -65,7 +65,7 @@ const pageConfig = {
 const html = mainPage(pageConfig, body => {
   return `
     ${body}
-    <input id="traceFileInput" type="file" style="position: fixed; z-index: 100; left: 80%; top: 10px">
+    <input id="traceFileInput" type="file" style="position: fixed; z-index: 32; left: 80%; top: 10px">
     <script>
       // TODO: can't add event listeners on non-vue elements inside vue
       // const topBar = document.querySelector('nav');
