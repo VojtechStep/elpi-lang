@@ -376,6 +376,32 @@ function elaborateStep(
           }
           break;
         }
+        case 'sigma':
+        case 'pi': {
+          const newQuantItems = D.has('user:new-quant', items)?.item.payload ?? [];
+          pushFrame(
+            stepId,
+            goalId,
+            {
+              kind: 'BuiltinRule',
+              value: {
+                kind: 'Logic',
+                name,
+                payload: newQuantItems
+              }
+            },
+            siblings,
+            stacks,
+            seedStacks
+          )
+          action = {
+            kind: 'Builtin',
+            name: { name, kind: 'Logic', payload: [] },
+            events: [],
+            outcome
+          }
+          break;
+        }
         default: {
           const ruleName: BuiltinRule = {
             kind: 'Logic',
