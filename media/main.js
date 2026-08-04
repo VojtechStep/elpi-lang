@@ -37,10 +37,12 @@ import * as E from 'shared/elaborator/index.mjs';
 
     function elide(i, str) {
 
-        if (str.length < 2*i)
+        // Take into account that ' ... ' extends the string
+        if (str.length < 2*i + 5)
             return str;
 
-        return str.replace(str.slice(i,-i),' ... ');
+        // return str.replace(str.slice(i,-i),' ... ');
+        return str.substring(0, i) + ' ... ' + str.substring(str.length - i)
     }
 
     // /////////////////////////////////////////////////////////////////////////////
@@ -1662,7 +1664,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                 stack: window.goal_navigation_stack,
             },
             updated: () => {
-
+                document.querySelector('#navstack li.active')?.scrollIntoView()
                 // return;
 
                 // if(window.popCount == window.inboxCount)
