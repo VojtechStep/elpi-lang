@@ -11,7 +11,15 @@ import * as E from 'shared/elaborator/index.mjs';
             case 'trace':
                 clear();
                 try {
-                    trace(E.elaborate(message.source))
+                    const elaborated = E.elaborate(message.source)
+                    elaborated.sources.forEach((source, filename) => {
+                      vscode.postMessage({
+                        command: 'report_source',
+                        filename,
+                        source
+                      })
+                    })
+                    trace(elaborated.cards)
                     $("#trace-information").val(message.file + ' on ' + new Date().toISOString());
                 } catch (e) {
                     console.error('Error while elaborating trace', e)
@@ -1350,6 +1358,9 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
     // /////////////////////////////////////////////////////////////////////////////
 
     function clear() {
+        vscode.postMessage({
+          command: 'clear_sources'
+        })
 
         if (window.inboxVue !== undefined && window.inboxCount !== undefined) {
             window.inboxVue.clear();

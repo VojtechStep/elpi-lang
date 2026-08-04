@@ -193,7 +193,7 @@ export function decodeCHRTryList(
   return { successful, failed };
 }
 
-export function decodeString(input: TimedItem): string {
+export function decodeString<I extends { item: { payload: string[] } }>(input: I): string {
   return input.item.payload.join('');
 }
 

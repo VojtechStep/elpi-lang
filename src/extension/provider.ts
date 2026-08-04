@@ -7,9 +7,10 @@ import * as fs from 'fs';
 
 import mainPage from '../shared/mainPage.mjs';
 
-export class TraceProvider implements vscode.WebviewViewProvider {
+export class TraceProvider implements vscode.WebviewViewProvider, vscode.TextDocumentContentProvider {
 
     public static readonly viewType = 'elpi.tracer';
+    public static readonly fileScheme = 'elpi-builtin';
 
     private _elpi: string;
     private _options: string;
@@ -18,6 +19,8 @@ export class TraceProvider implements vscode.WebviewViewProvider {
     private _source: string;
     private _target_raw: string;
     private _target_dir: string;
+
+    private _sources: Map<string, string>;
 
     private _channel: any = vscode.window.createOutputChannel('Elpi');
 
@@ -33,6 +36,8 @@ export class TraceProvider implements vscode.WebviewViewProvider {
         this._options_default = "";
 
         this._source = "";
+
+        this._sources = new Map();
 
         if (os.platform().toString().toLowerCase() == "win32")
             this._target_dir = process.env['APPDATA'] + '\\';
@@ -67,51 +72,59 @@ export class TraceProvider implements vscode.WebviewViewProvider {
 
                 break;
             }
+            case 'report_source': {
+                const { source, filename } = message;
+                console.log('Registering source', filename);
+                this._sources.set(filename, source);
+                break;
+            }
+            case 'clear_sources': {
+                this._sources = new Map();
+                break;
+            }
             case 'hopTo':
             {
-                if (!message.value.startsWith('builtin')) {
+                const [file, position] = message.value.split(' ', 2);
+                // const character = position.substring(
+                //     position.indexOf("(") + 1,
+                //     position.lastIndexOf("@")
+                // );
+                const line = position.substring(
+                    position.indexOf("L") + 1,
+                    position.lastIndexOf(":")
+                );
+                const column = position.substring(
+                    position.indexOf("C") + 1,
+                    position.lastIndexOf(")")
+                );
 
-                    const file = message.value.split(' ')[0];
-                    const position = message.value.split(' ')[1];
-                    // const character = position.substring(
-                    //     position.indexOf("(") + 1,
-                    //     position.lastIndexOf("@")
-                    // );
-                    const line = position.substring(
-                        position.indexOf("L") + 1,
-                        position.lastIndexOf(":")
-                    );
-                    const column = position.substring(
-                        position.indexOf("C") + 1,
-                        position.lastIndexOf(")")
-                    );
+                let openPath = this._sources.has(file) ? vscode.Uri.parse(`${TraceProvider.fileScheme}:${file}`) : file;
 
-                    let openPath = file;
-
-                    vscode.workspace.openTextDocument(openPath).then(async (doc) => {
-                        let pos1 = new vscode.Position(0, 0);
-                        let pos2 = new vscode.Position(0, 0);
-                        let sel = new vscode.Selection(pos1, pos2);
-                        vscode.window.showTextDocument(doc, vscode.ViewColumn.One).then((e) => {
-                            e.selection = sel;
-                            vscode.commands
-                                .executeCommand("cursorMove", {
-                                    to: "down",
-                                    by: "line",
-                                    value: parseInt(line) - 1,
-                                })
-                                .then(() =>
-                                    vscode.commands.executeCommand("cursorMove", {
-                                        to: "right",
-                                        by: "character",
-                                        value: parseInt(column) - 1,
-                                    })
-                                );
-                        });
+                vscode.workspace.openTextDocument(openPath).then(async (doc) => {
+                    // let pos1 = new vscode.Position(0, 0);
+                    // let pos2 = new vscode.Position(0, 0);
+                    // let sel = new vscode.Selection(pos1, pos2);
+                    let pos = new vscode.Position(parseInt(line) - 1, parseInt(column))
+                    let sel = new vscode.Selection(pos, pos);
+                    vscode.window.showTextDocument(doc, vscode.ViewColumn.One).then((e) => {
+                        e.selections = [sel];
+                        // vscode.commands
+                        //     .executeCommand("cursorMove", {
+                        //         to: "down",
+                        //         by: "line",
+                        //         value: parseInt(line) - 1,
+                        //     })
+                        //     .then(() =>
+                        //         vscode.commands.executeCommand("cursorMove", {
+                        //             to: "right",
+                        //             by: "character",
+                        //             value: parseInt(column) - 1,
+                        //         })
+                        //     );
                     });
+                });
 
-                    this._channel.appendLine(`Hoping to file ${file} at ${line}:${column}`);
-                }
+                this._channel.appendLine(`Hoping to file ${file} at ${line}:${column}`);
 
                 break;
             }
@@ -126,6 +139,17 @@ export class TraceProvider implements vscode.WebviewViewProvider {
             }
         });
     }
+
+    provideTextDocumentContent(uri: vscode.Uri, _token: vscode.CancellationToken): vscode.ProviderResult<string> {
+        // return `Totally a builtin dude: ${uri.path}`
+        const path = uri.path;
+        const source = this._sources.get(path);
+        if (typeof source !== 'undefined') {
+            return source;
+        }
+        return `Builtin ${path} has no associated source`;
+    }
+
 
     private findFileOnPath(name: string) {
         if (name.startsWith('/')) { return true };

@@ -1,7 +1,9 @@
 import type { Item as Item1 } from './trace_v1.mjs';
 import type { Item as Item2 } from './trace_v2.mjs';
+import type { Item as Item3 } from './trace_v3.mjs';
 export type { Item as Item1 } from './trace_v1.mjs';
 export type { Item as Item2 } from './trace_v2.mjs';
+export type { Item as Item3 } from './trace_v3.mjs';
 import type StepMap from './StepMap.mts';
 
 export type V<K> = { value: K };
@@ -72,7 +74,10 @@ export type GoalSet = Set<GoalId>;
 
 export type RawStep1 = Timestamped<{ items: Timed<{ item : Item1 }>[]}>;
 export type RawStep2 = Timestamped<{ items: Timed<{ item : Item2 }>[]}>;
+export type RawStep3 = Timestamped<{ items: Timed<{ item : Item3 }>[]}>;
 
+// TODO: refine this wrt Meta
 export type ParsedTrace =
-  | R<'V1', V<StepMap<RawStep1>>>
-  | R<'V2', V<StepMap<RawStep2>>>;
+  | R<'V1',{ steps: StepMap<RawStep1>, meta: Item1[] }>
+  | R<'V2',{ steps: StepMap<RawStep2>, meta: Item2[] }>
+  | R<'V3',{ steps: StepMap<RawStep3>, meta: Item3[] }>;

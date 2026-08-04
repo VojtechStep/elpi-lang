@@ -11,6 +11,10 @@ export function activate(context: vscode.ExtensionContext) {
 		}));
 
 	context.subscriptions.push(
+		vscode.workspace.registerTextDocumentContentProvider(provider.TraceProvider.fileScheme, tracer)
+	);
+
+	context.subscriptions.push(
 		vscode.commands.registerCommand('elpi.open', () => {
 			tracer.open();
 		}));
