@@ -40,6 +40,13 @@ export type Location =
   | R<'File', { file: FileLocation }>
   | R<'Context', { step: StepIdx }>
 
+export type BuiltinRule = {
+  name: string,
+  kind: 'Logic' | 'FFI',
+  payload: string[],
+  ruleLoc?: Location,
+};
+
 export type Constraint = {
   id: GoalId,
   text: string

@@ -93,6 +93,7 @@ export type BuiltinRule = {
   name: string;
   kind: BuiltinKind;
   payload: string[];
+  rule_loc?: Location;
 }
 
 export type Location =

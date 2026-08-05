@@ -2,6 +2,7 @@ import Unreachable from '../unreachable.mjs';
 import * as D from './decoding.mjs';
 import StepMap, { SortedStepMap } from './StepMap.mjs';
 import type {
+  BuiltinRule,
   CHRAttempt,
   Constraint,
   Cut,
@@ -12,26 +13,17 @@ import type {
   ParsedTrace,
   R,
   RawStep2 as RawStep,
-  Item2,
   StepId,
   StepIdx,
   Time,
-  Timed,
   Timestamp,
   V,
   Timestamped,
 } from './types.mjs';
-type TimedItem = Timed<{ item: Item2 }>
 
 export type Outcome =
   | R<'Success', { siblings: GoalId[] }>
   | R<'Fail'>;
-
-type BuiltinRule = {
-  name: string,
-  kind: 'Logic' | 'FFI',
-  payload: string[]
-};
 
 type UserRule = {
   ruleText: string,
@@ -71,17 +63,6 @@ class ElaborationError extends Error {
     super(message);
     this.name = 'ElaborationError';
     this.step = step;
-  }
-}
-
-function builtinName(l: TimedItem[]): BuiltinRule | null {
-  const name = D.has('user:rule:builtin:name', l);
-  if (!name)
-    return null;
-  return {
-    kind: 'FFI',
-    name: D.decodeString(name),
-    payload: []
   }
 }
 
@@ -317,7 +298,7 @@ function elaborateStep(
           break;
         }
         case 'builtin': {
-          const name = builtinName(items);
+          const name = D.decodeBuiltin(items);
           if (!name) {
             throw new ElaborationError('Builtin has no name', step);
           }
@@ -355,8 +336,8 @@ function elaborateStep(
             {
               kind: 'BuiltinRule',
               value: {
+                name,
                 kind: 'Logic',
-                name: 'implication',
                 payload: newHyps
               }
             },

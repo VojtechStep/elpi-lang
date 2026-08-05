@@ -1,4 +1,5 @@
 import type {
+  BuiltinRule,
   CHRAttempt,
   Constraint,
   Cut,
@@ -253,6 +254,22 @@ export function decodeChrStoreEntry(item: TimedItem): Constraint {
     id: Number.parseInt(gid!),
     text: gtext!
   }
+}
+
+export function decodeBuiltin(l: TimedItem[]): BuiltinRule | null {
+  const name = has('user:rule:builtin:name', l);
+  if (!name)
+    return null;
+  const rule: BuiltinRule = {
+    kind: 'FFI',
+    name: decodeString(name),
+    payload: [],
+  }
+  const loc = has('user:rule:builtin:loc', l);
+  if (loc && loc.item.payload.length === 1) {
+    rule.ruleLoc = parseLoc(loc.item.payload[0]!)
+  }
+  return rule;
 }
 
 export type DecodedStep =

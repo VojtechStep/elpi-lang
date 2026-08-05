@@ -120,10 +120,14 @@ const toLoc = (l: Location): C.Location => {
 }
 const toRule = (r: E.Rule): C.Rule => {
   if (r.kind === 'BuiltinRule') {
-    return {
+    const rule: C.Rule = {
       kind: 'BuiltinRule',
       value: { ...r.value, kind: { kind: r.value.kind } }
     }
+    if (r.value.ruleLoc) {
+      rule.value.rule_loc = toLoc(r.value.ruleLoc)
+    }
+    return rule
   }
   if (r.kind === 'UserRule') {
     return {
