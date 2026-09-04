@@ -5,7 +5,6 @@ type StyleName =
   | 'main';
 
 type ScriptName =
-  | 'jquery'
   | 'vue'
   | 'fuzz'
   | 'quickview' | 'collapsible';
@@ -55,7 +54,7 @@ export default (
                         <div class="dropdown">
                             <div class="dropdown-trigger">
                                 <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3" style="flex: 1 1 auto;">
-                                    <span class="mdi mdi-filter"><span id="filter-text" class="is-size-7">Filter by Goal</span>
+                                    <span class="mdi mdi-filter"><span id="filter-text" class="is-size-7">Filter by goal</span>
                                 </button>
                             </div>
                             <div class="dropdown-menu" id="dropdown-menu3" role="menu">
@@ -188,12 +187,12 @@ export default (
 
                        <div class="tags has-addons" style="float:right; margin-top: 5px;">
                            <span class="tag">Step</span>
-                           <span class="tag is-info sid"></span>
+                           <span id="message-pane-sid" class="tag is-info sid"></span>
                        </div>
 
                        <div class="tags has-addons" style="float:right; margin-right: 10px; margin-top: 5px;">
                            <span class="tag">Runtime</span>
-                           <span class="tag is-info rid"></span>
+                           <span id="message-pane-rid" class="tag is-info rid"></span>
                        </div>
 
                        <div class="tags has-addons" style="float:left; margin-right: 10px; margin-top: 5px;">
@@ -201,18 +200,18 @@ export default (
                               <span class="mdi mdi-card-bulleted" style="font-size: 12px;"></span>
                               Goal
                            </span>
-                           <span class="tag is-info goal_id"></span>
+                           <span id="message-pane-goal-id" class="tag is-info goal_id"></span>
                        </div>
 
                        <br/>
                        <br/>
                        <br/>
 
-                       <div class="goal"></div>
+                       <div id="message-pane-goal" class="goal"></div>
 
                        <!-- <hr/> -->
 
-                       <div class="card_content"></div>
+                       <div id="message-pane-card-content" class="card_content"></div>
                    </div>
                 </div>
 

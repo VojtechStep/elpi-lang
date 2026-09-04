@@ -4,6 +4,10 @@ import * as E from 'shared/elaborator/index.mjs';
 (function () {
     const vscode = acquireVsCodeApi();
 
+    // TODO: cache the various document.getElementById calls here after
+    // Vue is removed; currently the elements wouldn't survive
+    // rehydration
+
     // Handle messages sent from the extension to the webview
     window.addEventListener('message', event => {
         const message = event.data; // The json data that the extension sent
@@ -12,7 +16,7 @@ import * as E from 'shared/elaborator/index.mjs';
                 clear();
                 try {
                     trace(E.elaborate(message.source))
-                    $("#trace-information").val(message.file + ' on ' + new Date().toISOString());
+                    document.getElementById('trace-information').value = message.file + ' on ' + new Date().toISOString();
                 } catch (e) {
                     console.error('Error while elaborating trace', e)
                     vscode.postMessage({
@@ -25,10 +29,7 @@ import * as E from 'shared/elaborator/index.mjs';
                 clear();
                 break;
             case 'progress':
-                if (message.state == 'on')
-                    $('#loader').addClass('is-active');
-                else
-                    $('#loader').removeClass('is-active');
+                document.getElementById('loader').classList.toggle('is-active', message.state === 'on')
                 break;
             default:
                 break;
@@ -386,7 +387,7 @@ import * as E from 'shared/elaborator/index.mjs';
 
         if (text == '') {
             for (var i = 0; i < window.inboxCount; i++) {
-                $('#msg-card-' + window.inbox[i].card_index).removeClass("hidden");
+                document.getElementById(`msg-card-${window.inbox[i].card_index}`).classList.remove('hidden')
             }
             return;
         }
@@ -398,38 +399,31 @@ import * as E from 'shared/elaborator/index.mjs';
             if (window.filter_type == "goal") {
                 var ratio = fuzzball.ratio(text, window.inbox[i].goal_text);
 
-                if(ratio > 80 || window.inbox[i].goal_text.startsWith(text) || window.inbox[i].goal_text.includes(text)) {
-                    // console.log('Compared', text, 'with', window.inbox[i].goal_text, ratio);
-                    $('#msg-card-' + window.inbox[i].card_index).removeClass("hidden");
-                } else {
-                    $('#msg-card-' + window.inbox[i].card_index).addClass("hidden");
-                }
+                document.getElementById(`msg-card-${window.inbox[i].card_index}`).classList.toggle(
+                  'hidden',
+                  !(ratio > 80 || window.inbox[i].goal_text.startsWith(text) || window.inbox[i].goal_text.includes(text))
+                )
             }
 
             if (window.filter_type == "predicate") {
                 var ratio = fuzzball.ratio(text, window.inbox[i].goal_predicate);
 
-                if(ratio > 80 || window.inbox[i].goal_predicate.startsWith(text) || window.inbox[i].goal_predicate.includes(text)) {
-                    // console.log('Compared', text, 'with', window.inbox[i].goal_predicate, ratio);
-                    $('#msg-card-' + window.inbox[i].card_index).removeClass("hidden");
-                } else {
-                    $('#msg-card-' + window.inbox[i].card_index).addClass("hidden");
-                }
+                document.getElementById(`msg-card-${window.inbox[i].card_index}`).classList.toggle(
+                  'hidden',
+                  !(ratio > 80 || window.inbox[i].goal_predicate.startsWith(text) || window.inbox[i].goal_predicate.includes(text))
+                )
             }
 
             if (window.filter_type == "kind") {
                 var ratio = fuzzball.ratio(text, window.inbox[i].type);
-
-                if(ratio > 80 || window.inbox[i].kind.startsWith(text) || window.inbox[i].kind.includes(text)) {
-                    // console.log('Compared', text, 'with', window.inbox[i].type, ratio);
-                    $('#msg-card-' + window.inbox[i].card_index).removeClass("hidden");
-                } else {
-                    $('#msg-card-' + window.inbox[i].card_index).addClass("hidden");
-                }
+                document.getElementById(`msg-card-${window.inbox[i].card_index}`).classList.toggle(
+                  'hidden',
+                  !(ratio > 80 || window.inbox[i].kind.startsWith(text) || window.inbox[i].kind.includes(text))
+                )
             }
         }
     }
-    
+
     function back() {
 
         // console.log('Backwards on goal');
@@ -437,14 +431,14 @@ import * as E from 'shared/elaborator/index.mjs';
         if (window.goal_navigation_index < 1)
             return;
 
-        $("#filter").val(''); filter('');
-        
+        document.getElementById('filter').value = ''; filter('');
+
         window.goal_navigation_index = window.goal_navigation_index - 1;
-        
+
         var previous = window.goal_navigation_stack[window.goal_navigation_index];
 
         window.prevent_nav_handling = true;
-        
+
         window.inboxVue.showMessage(previous.msg, previous.index);
 
         scrollTo(previous.index);
@@ -459,14 +453,14 @@ import * as E from 'shared/elaborator/index.mjs';
         if (window.goal_navigation_index == window.goal_navigation_stack.length - 1)
             return;
 
-        $("#filter").val(''); filter('');
-        
+        document.getElementById('filter').value = ''; filter('');
+
         window.goal_navigation_index = window.goal_navigation_index + 1;
-        
+
         var following = window.goal_navigation_stack[window.goal_navigation_index];
 
         window.prevent_nav_handling = true;
-        
+
         window.inboxVue.showMessage(following.msg, following.index);
 
         scrollTo(following.index);
@@ -476,7 +470,7 @@ import * as E from 'shared/elaborator/index.mjs';
 
     function scrollTo(index) {
 
-		document.getElementById("msg-card-" + index).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        document.getElementById(`msg-card-${index}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     // /////////////////////////////////////////////////////////////////////////////
@@ -1353,9 +1347,9 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
         if (window.inboxVue !== undefined && window.inboxCount !== undefined) {
             window.inboxVue.clear();
             window.inboxVue.clear_navigation();
-            
-            $("#filter").val(''); filter('');
-            $("#trace-information").val("");
+
+            document.getElementById('filter').value = ''; filter('');
+            document.getElementById('trace-information').value = '';
         }
     }
 
@@ -1644,14 +1638,17 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
 // /////////////////////////////////////////////////////////////////////////////
 
-        $('#message-feed').removeClass('is-hidden');
+        document.getElementById('message-feed').classList.remove('is-hidden')
 
         if (window.inboxVue !== undefined) {
             window.inboxVue.messages = window.inbox;
             window.inboxVue.stack = window.goal_navigation_stack;
 
-            for(var i = 0; i < window.inboxCount; i++)
-                $('#msg-card-' + i).removeClass('active');
+            // Needs to happen after the DOM nodes are added by Vue
+            window.inboxVue.$nextTick(() => {
+                for(var i = 0; i < window.inboxCount; i++)
+                    document.getElementById(`msg-card-${i}`).classList.remove('active')
+            });
 
             return;
         }
@@ -1744,10 +1741,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
                                 // console.log('Toggling card of index', window.inbox[i].card_index);
 
-                                if ($('#msg-card-' + window.inbox[i].card_index).hasClass("hidden"))
-                                    $('#msg-card-' + window.inbox[i].card_index).removeClass("hidden")
-                                else
-                                    $('#msg-card-' + window.inbox[i].card_index).addClass("hidden")
+                                document.getElementById(`msg-card-${window.inbox[i].card_index}`).classList.toggle('hidden')
                             }
                         }
                     }
@@ -1765,11 +1759,9 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
                     // console.log('Showing', msg, index);
 
-                    $('#message-pane').removeClass('is-hidden');
-                    $('.card').removeClass('active');
-                    $('.card-indented').removeClass('active');
-                    $('.card-indented-last').removeClass('active');
-                    $('#msg-card-' + index).addClass('active');
+                    document.getElementById('message-pane').classList.remove('is-hidden')
+                    document.querySelectorAll('.card, .card-indented, .card-indented-last').forEach(c => c.classList.remove('active'))
+                    document.getElementById(`msg-card-${index}`).classList.add('active')
 
                     let code = `
 <div onclick="window.inboxVue.set_snippet(${index});">
@@ -1778,18 +1770,18 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                     code += `
 </div>
 `;
-                    $('#message-pane .goal').html(code);
+                    document.getElementById('message-pane-goal').innerHTML = code;
 
-                    $('#message-pane .goal_id').html(msg.goal_id);
+                    document.getElementById('message-pane-goal-id').textContent = msg.goal_id;
 
-                    $('#message-pane .top .tags .rid').text(msg.rt);
-                    $('#message-pane .top .tags .sid').text(msg.id);
+                    document.getElementById('message-pane-rid').textContent = msg.rt;
+                    document.getElementById('message-pane-sid').textContent = msg.id;
 
 // /////////////////////////////////////////////////////////////////////////////
 // TODO: Card pane refactoring entry point
 // /////////////////////////////////////////////////////////////////////////////
 
-                    $('#message-pane .card_content').html(format(msg));
+                    document.getElementById('message-pane-card-content').innerHTML = format(msg);
 
 // /////////////////////////////////////////////////////////////////////////////
 
@@ -1822,20 +1814,19 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                             index: index
                         });
 
-                        $("#nav_clear").removeClass('is-hidden');
+                        document.getElementById('nav_clear').classList.remove('is-hidden')
                     }
 
-                    if (window.goal_navigation_stack.length > 1)
-                        $("#back_b").removeClass('inactive');
+                    document.getElementById('back_b').classList.toggle(
+                      'inactive',
+                      window.goal_navigation_stack.length <= 1 || window.goal_navigation_index === 0
+                    );
 
-                    if (window.goal_navigation_index == 0)
-                        $("#back_b").addClass('inactive');
+                    document.getElementById('forw_b').classList.toggle(
+                      'inactive',
+                      window.goal_navigation_index >= window.goal_navigation_stack.length - 1
+                    )
 
-                    if (window.goal_navigation_index < window.goal_navigation_stack.length - 1)
-                        $("#forw_b").removeClass('inactive');
-                    else
-                        $("#forw_b").addClass('inactive');
-                    
                     // console.log('showMessage: NAV STACK STATE', window.goal_navigation_stack, '(' + window.goal_navigation_index + ')');
 
                     for(var i = 0; i < window.goal_navigation_stack.length; i++) {
@@ -1849,33 +1840,33 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                     // Toggling
                     // /////////////////////////////////////////////////////////////////////////////
 
-                    $("#toggle_f").on('click', (e) => {
+                    // TODO: This element yoga feels quite unstable, since it's aware of whitespace text nodes...
+                    document.getElementById('toggle_f')?.addEventListener('click', (e) => {
                         e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
                     });
-                    $("#toggle_s").on('click', (e) => {
+                    document.getElementById('toggle_s')?.addEventListener('click', (e) => {
                         e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
                     });
-                    $("#toggle_t").on('click', (e) => {
+                    document.getElementById('toggle_t')?.addEventListener('click', (e) => {
                         e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
                     });
-                    $("#toggle_ms").on('click', (e) => {
+                    document.getElementById('toggle_ms')?.addEventListener('click', (e) => {
                         e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
                     });
-                    $("#toggle_stb").on('click', (e) => {
+                    document.getElementById('toggle_stb')?.addEventListener('click', (e) => {
                         e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
                     });
-                    $("#toggle_sta").on('click', (e) => {
+                    document.getElementById('toggle_sta')?.addEventListener('click', (e) => {
                         e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
                     });
 
                     accordions = bulmaCollapsible.attach('.is-collapsible');
 
-                    $('.no_jump_hack').click(function(e)
-                    {
+                    // TODO: I don't see a reason why this hack should stay in place
+                    document.querySelectorAll('.no_jump_hack').forEach(e => e.addEventListener('click', e => {
                         e.preventDefault();
-                        
                         return false;
-                    });
+                    }))
                 },
                 clear: function() {
 
@@ -1889,7 +1880,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                         window.inboxVue.$delete(window.inboxVue.stack, i);
                     }
 
-                    $('#message-pane').addClass('is-hidden');
+                    document.getElementById('message-pane').classList.add('is-hidden')
 
                     window.inboxCount = 0;
                 },
@@ -1898,21 +1889,21 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
                     while(window.goal_navigation_stack.length > 0)
                         window.goal_navigation_stack.pop();
-        
-                    $("#back_b").addClass('inactive');
-                    $("#forw_b").addClass('inactive');
 
-                    $("#nav_clear").addClass('is-hidden');
+                    document.getElementById('back_b').classList.add('inactive');
+                    document.getElementById('forw_b').classList.add('inactive');
+
+                    document.getElementById('nav_clear').classList.add('is-hidden');
                 },
                 set_snippet: (index) => {
 
                     console.log('Setting snippet for index', index);
-            
-                    $("#snippet").html(window.inbox[index].goal_text_highlighted);
-                    
+
+                    document.getElementById('snippet').innerHTML = window.inbox[index].goal_text_highlighted;
+
                     console.log(quickviews);
                     console.log(quickviews[0]);
-                    
+
                     quickviews[0].quickview.classList.toggle('is-active');
                     quickviews[0].emit('quickview:toggle', {
                           element: quickviews[0].element,
@@ -1935,7 +1926,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                     //     return;
                     // }
 
-                    $("#filter").val(''); filter('');
+                    document.getElementById('filter').value = ''; filter('');
 
                     // console.log('jumping to', index);
 
@@ -1957,7 +1948,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                 },
                 switchTo: function(index, runtime, step) {
 
-                    $("#filter").val(''); filter('');
+                    document.getElementById('filter').value = ''; filter('');
 
                     window.goal_navigation_index = index;
 
@@ -1990,50 +1981,43 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
     // Filtering
     // /////////////////////////////////////////////////////////////////////////////
 
-    $("#filter").on("change", function() { // use the "input" event for filtering on each keystroke instead
-        filter($(this).val());
-    });
-    
-    $("#back_b").on("click", function() {
-        back();
-    });
-    
-    $("#forw_b").on("click", function() {
-        forw();
-    });
+    // use the "input" event for filtering on each keystroke instead
+    // NB: not triggered by programatically setting `value`
+    document.getElementById('filter').addEventListener('change', e =>
+      filter(e.target.value)
+    )
+
+    document.getElementById('back_b').addEventListener('click', () => back());
+    document.getElementById('forw_b').addEventListener('click', () => forw());
 
     // /////////////////////////////////////////////////////////////////////////////
     // Filtering section
     // /////////////////////////////////////////////////////////////////////////////
 
-    $('.dropdown:not(.is-hoverable)').each(function() {
-        $(this).on('click', function() {
-            $(this).toggleClass("is-active");
-        });
+    document.querySelectorAll('.dropdown:not(.is-hoverable)').forEach(d => {
+        d.addEventListener('click', () => d.classList.toggle('is-active'))
     });
 
-    $('#filter-by-goal').on('click', function() {
-        $('#filter-text').html("Filter by goal");
-        window.filter_type = "goal";
-        filter($("#filter").val());
+    document.getElementById('filter-by-goal').addEventListener('click', () => {
+        document.getElementById('filter-text').textContent = 'Filter by goal';
+        window.filter_type = 'goal';
+        filter(document.getElementById('filter').value);
+    });
+    document.getElementById('filter-by-predicate').addEventListener('click', () => {
+        document.getElementById('filter-text').textContent = 'Filter by predicate';
+        window.filter_type = 'predicate';
+        filter(document.getElementById('filter').value);
+    });
+    document.getElementById('filter-by-kind').addEventListener('click', () => {
+        document.getElementById('filter-text').textContent = 'Filter by kind';
+        window.filter_type = 'kind';
+        filter(document.getElementById('filter').value);
     });
 
-    $('#filter-by-predicate').on('click', function() {
-        $('#filter-text').html("Filter by predicate");
-        window.filter_type = "predicate";
-        filter($("#filter").val());
-    });
-
-    $('#filter-by-kind').on('click', function() {
-        $('#filter-text').html("Filter by kind");
-        window.filter_type = "kind";
-        filter($("#filter").val());
-    });
-
-    $('#options').on("input", function () {
+    document.getElementById('options').addEventListener('change', e => {
         vscode.postMessage({
             command: 'options_changed',
-            value: $(this).val()
+            value: e.target.value
         });
     });
 
