@@ -104,7 +104,7 @@ export default (
                 </div>
             </nav>
 
-            <nav class="navbar is-fixed-bottom breadcrumb has-arrow-separator" aria-label="breadcrumbs" style="display: flex;">
+            <nav id="navstack" class="navbar is-fixed-bottom breadcrumb has-arrow-separator" aria-label="breadcrumbs" style="display: flex;">
 
                 <p>Navigation history:</p>
 

@@ -460,6 +460,9 @@ hr
 {
   margin-top: 10px;
   margin-left: 10px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-behavior: smooth;
 }
 
 .navbar.is-fixed-bottom p

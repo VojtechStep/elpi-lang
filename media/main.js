@@ -1662,7 +1662,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                 stack: window.goal_navigation_stack,
             },
             updated: () => {
-
+                document.querySelector('#navstack li.active')?.scrollIntoView()
                 // return;
 
                 // if(window.popCount == window.inboxCount)
