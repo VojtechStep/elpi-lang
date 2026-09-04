@@ -1876,8 +1876,20 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
     // /////////////////////////////////////////////////////////////////////////////
 
     document.querySelectorAll('.dropdown:not(.is-hoverable)').forEach(d => {
-        d.addEventListener('click', () => d.classList.toggle('is-active'))
-    });
+        const button = d.querySelector('button');
+        if (!button) {
+            return;
+        }
+        button.addEventListener('click', e => {
+            e.stopPropagation();
+            d.classList.toggle('is-active')
+        })
+    })
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.dropdown:not(.is-hoverable)').forEach(d => {
+            d.classList.remove('is-active')
+        })
+    })
 
     document.getElementById('filter-by-goal').addEventListener('click', () => {
         document.getElementById('filter-text').textContent = 'Filter by goal';
