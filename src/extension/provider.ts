@@ -259,7 +259,6 @@ export class TraceProvider implements vscode.WebviewViewProvider {
 
     private _getHtmlForWebview(webview: vscode.Webview) {
 
-        const      jqueryUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'node_modules', 'jquery', 'dist', 'jquery.min.js'));
         const         vueUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'node_modules', 'vue', 'dist', 'vue.min.js'));
         const        fuzzUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'node_modules', 'fuzzball', 'dist', 'fuzzball.umd.min.js'));
         const     bulmaQVUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'node_modules', 'bulma-quickview', 'dist', 'js', 'bulma-quickview.min.js'));
@@ -292,7 +291,6 @@ export class TraceProvider implements vscode.WebviewViewProvider {
             main: styleMainUri.toString(),
           },
           scripts: {
-            jquery: jqueryUri.toString(),
             vue: vueUri.toString(),
             fuzz: fuzzUri.toString(),
             quickview: bulmaQVUri.toString(),

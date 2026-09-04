@@ -178,7 +178,6 @@
 		"bulma-quickview": "^2.0.0",
 		"bulma-tooltip": "^3.0.2",
 		"fuzzball": "^2.1.2",
-		"jquery": "^3.6.1",
 		"vue": "^2.7.0"
 	}
 }
