@@ -319,62 +319,6 @@ import * as E from 'shared/elaborator/index.mjs';
 
         }
         return destinations;
-
-
-        for(var i = 0; i < all_attempts.length; i++) {
-            let step_id = all_attempts[i];
-            let runt_id = card.runtime_id;
-
-            // console.log('goal_status_label', 'seeking goal id for', step_id, runt_id);
-
-            // for(var j = 0; j < trace.length; j++) {
-
-            //     if(trace[j].step_id    == step_id
-            //     && trace[j].runtime_id == runt_id) {
-
-            //         goal_ds[0] =         trace[j].step_id;
-            //         goal_ds[1] = goal_id(trace[j].step);
-
-            //         if (goal_ds[0] != undefined && goal_ds[1] != undefined) {
-            //             // console.log('goal_status_label', 'pushing', goal_ds[0], goal_ds[1]);
-            //             destinations.push(goal_ds);
-            //         }
-            //     }
-            // }
-
-            for(var j = 0; j < trace.length; j++) {
-
-                if(trace[j].step_id    == step_id
-                && trace[j].runtime_id == runt_id
-                && trace[j].step_id     < min_step) {
-
-                    ds_s =         trace[j].step_id;
-                    ds_g = goal_id(trace[j].step);
-
-                    min_step = trace[j].step_id;
-                }
-            }
-        }
-
-        if (min_step < 99999999) {
-
-            let goal_ds = [];
-
-            goal_ds[0] = ds_s;
-            goal_ds[1] = ds_g;
-            goal_ds[2] = ids_for_rt_st_gl(ds_r, ds_s, ds_g)[0];
-
-            if (goal_ds[0] != undefined && goal_ds[1] != undefined) {
-                // console.log('goal_status_label', 'pushing', goal_ds[0], goal_ds[1]);
-                destinations.push(goal_ds);
-            }
-        }
-
-        // (step_id, goal_id, card_index)
-
-        // console.log('goal_status_label', '[' + destinations.join(', ') + ']');
-
-        return destinations;
     }
 
     // /////////////////////////////////////////////////////////////////////////////
@@ -1661,69 +1605,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
             },
             updated: () => {
                 document.querySelector('#navstack li.active')?.scrollIntoView()
-                // return;
-
-                // if(window.popCount == window.inboxCount)
-                //     return;
-
-                // for (var i = 0; i < window.inboxCount; i++, window.popCount++) {
-                //     const pop = document.querySelector('#popcard-'+i);
-                //     const tot = document.querySelector('#popttip-'+i);
-                    
-                //     console.log('Creating popper for', i, pop, top);
-                    
-                //     const popperInstance = Popper.createPopper(pop, tot, {
-                //         placement: 'bottom',
-                //         modifiers: [{
-                //             name: 'offset',
-                //             options: {
-                //                 offset: [0, 8],
-                //             },
-                //         }],
-                //     });
-                    
-                //     function show() {
-                //         // Make the tooltip visible
-                //         tot.setAttribute('data-show', '');
-                        
-                //         // Enable the event listeners
-                //         popperInstance.setOptions((options) => ({
-                //             ...options,
-                //             modifiers: [
-                //                 ...options.modifiers,
-                //                 { name: 'eventListeners', enabled: true },
-                //             ],
-                //         }));
-                        
-                //         // Update its position
-                //         popperInstance.update();
-                //     }
-                    
-                //     function hide() {
-                //         // Hide the tooltip
-                //         tot.removeAttribute('data-show');
-                        
-                //         // Disable the event listeners
-                //         popperInstance.setOptions((options) => ({
-                //             ...options,
-                //             modifiers: [
-                //                 ...options.modifiers,
-                //                 { name: 'eventListeners', enabled: false },
-                //             ],
-                //         }));
-                //     }
-                    
-                //     const showEvents = ['mouseenter', 'focus'];
-                //     const hideEvents = ['mouseleave', 'blur'];
-                    
-                //     showEvents.forEach((event) => {
-                //         pop.addEventListener(event, show);
-                //     });
-                    
-                //     hideEvents.forEach((event) => {
-                //         pop.addEventListener(event, hide);
-                //     });
-                // }
             },
             methods: {
 
