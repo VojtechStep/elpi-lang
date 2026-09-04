@@ -94,15 +94,9 @@ import * as E from 'shared/elaborator/index.mjs';
 
     function ids_for_rt_gl_not(rt, gl, id) {
 
-        // console.log('ids_for_rt_gl_not', rt, gl, id);
-
         let rt_ids = ids_for_rt(rt);
         let gl_ids = ids_for_gl(gl);
         let it_ids = intersect(rt_ids, gl_ids);
-
-        // console.log('ids_for_rt_gl_not - rt_ids', '[' + rt_ids.join(', ') + ']');
-        // console.log('ids_for_rt_gl_not - gl_ids', '[' + gl_ids.join(', ') + ']');
-        // console.log('ids_for_rt_gl_not - it_ids', '[' + it_ids.join(', ') + ']');
 
         let ids = [];
 
@@ -137,8 +131,6 @@ import * as E from 'shared/elaborator/index.mjs';
         let gl_ids = ids_for_gl(gl);
         let it_ids = intersect(intersect(rt_ids, st_ids), gl_ids);
 
-        // console.log('ids_for_rt_st_gl', rt, st, gl, '[' + it_ids.join(', ') + ']');
-
         return it_ids;
     }
 
@@ -146,32 +138,26 @@ import * as E from 'shared/elaborator/index.mjs';
 
         if (window.rts.length > c)
             console.error('map_rt: RTS already has a key for index', c);
-        
-        window.rts[c] = rt;
 
-        // console.log('map_rt:', c, '[' + window.rts.join(', ') + ']');
+        window.rts[c] = rt;
     }
 
     function map_st(c, st) {
 
         if (window.sts.length > c)
             console.error('map_st: STS already has a key for index', c);
-        
-        window.sts[c] = st;
 
-        // console.log('map_st:', c, '[' + window.sts.join(', ') + ']');
+        window.sts[c] = st;
     }
 
     function map_gl(c, gl) {
 
         if (window.gls.length > c)
             console.error('map_gl: GLS already has a key for index', c);
-        
-        window.gls[c] = gl;
 
-        // console.log('map_gl:', c, '[' + window.gls.join(', ') + ']');
+        window.gls[c] = gl;
     }
-    
+
     // /////////////////////////////////////////////////////////////////////////////
     // Kind wise helper functions
     // /////////////////////////////////////////////////////////////////////////////
@@ -182,8 +168,6 @@ import * as E from 'shared/elaborator/index.mjs';
     }
 
     function goal_id(step) {
-
-        // console.log('goal_id:', JSON.stringify(step));
 
         let kind = step.kind;
         let id = -1;
@@ -211,8 +195,6 @@ import * as E from 'shared/elaborator/index.mjs';
 
     function goal_text(step) {
 
-        // console.log('goal_text:', JSON.stringify(step));
-
         let kind = step.kind;
         let text = "";
 
@@ -238,8 +220,6 @@ import * as E from 'shared/elaborator/index.mjs';
     }
 
     function goal_predicate(step) {
-
-        // console.log('goal_predicate:', JSON.stringify(step));
 
         let kind = step.kind;
         let predicate = "";
@@ -267,8 +247,6 @@ import * as E from 'shared/elaborator/index.mjs';
 
     function goal_status(card)
     {
-        // console.log('goal_status', JSON.stringify(card));
-
         let status = card.color.kind;
 
         return "dot-" + status.toLowerCase();
@@ -276,8 +254,6 @@ import * as E from 'shared/elaborator/index.mjs';
 
     function goal_footer(card)
     {
-        // console.log('goal_status', JSON.stringify(card));
-
         let status = card.color.kind;
 
         return "card-footer card-footer-" + status.toLowerCase();
@@ -292,10 +268,7 @@ import * as E from 'shared/elaborator/index.mjs';
         if (!status.includes("Yellow") && card.step.kind != "Inference")
             return [];
 
-        // console.log('goal_status_label', JSON.stringify(card));
-
         let destinations = [];
-        let min_step = 99999999;
         let ds_s = -1;
         let ds_g = -1;
 
@@ -326,7 +299,6 @@ import * as E from 'shared/elaborator/index.mjs';
     // /////////////////////////////////////////////////////////////////////////////
 
     function filter(text) {
-        // console.log('Filtering with', text, 'on', window.filter_type, 'there are', window.inboxCount, 'goal cards');
 
         if (text == '') {
             for (var i = 0; i < window.inboxCount; i++) {
@@ -336,8 +308,6 @@ import * as E from 'shared/elaborator/index.mjs';
         }
 
         for (var i = 0; i < window.inboxCount; i++) {
-
-            // console.log('Iterating on', i, window.inbox[i]);
 
             if (window.filter_type == "goal") {
                 var ratio = fuzzball.ratio(text, window.inbox[i].goal_text);
@@ -369,8 +339,6 @@ import * as E from 'shared/elaborator/index.mjs';
 
     function back() {
 
-        // console.log('Backwards on goal');
-
         if (window.goal_navigation_index < 1)
             return;
 
@@ -386,8 +354,6 @@ import * as E from 'shared/elaborator/index.mjs';
     }
 
     function forw() {
-
-        // console.log('Forwards on goal');
 
         if (window.goal_navigation_index == window.goal_navigation_stack.length - 1)
             return;
@@ -421,8 +387,6 @@ import * as E from 'shared/elaborator/index.mjs';
         let r_id = card.runtime_id;
         let s_id = card.step_id;
 
-        // console.log('format', JSON.stringify(card));
-
         if (kind == "Init") {
 
         } else if (kind == "Inference") {
@@ -450,8 +414,6 @@ import * as E from 'shared/elaborator/index.mjs';
         let step = card.step;
         let status = card.color.kind;
 
-        // console.log('format_inference', JSON.stringify(card));
-
         let contents = "<hr/>";
 
         contents += format_failed_attempts(step.value.failed_attempts, r_id, s_id);
@@ -469,8 +431,6 @@ import * as E from 'shared/elaborator/index.mjs';
 
         let card = msg.data;
         let step = card.step;
-
-        // console.log('format_findall', JSON.stringify(card));
 
         let contents = "<hr/>";
 
@@ -497,8 +457,6 @@ ${step.value.findall_solution_text}
         let card = msg.data;
         let step = card.step;
 
-        // console.log('format_cut', JSON.stringify(card));
-
         let contents = "<hr/>";
 
         for(var i = 0; i < step.value.cut_victims.length; i++) {
@@ -508,13 +466,7 @@ ${step.value.findall_solution_text}
                 "value": step.value.cut_victims[i].cut_branch
             };
 
-// /////////////////////////////////////////////////////////////////////////////
-//
-// /////////////////////////////////////////////////////////////////////////////
-
             let ds = ids_for_rt_gl(r_id, step.value.cut_victims[i].cut_branch_for_goal.goal_id)[0];
-
-// /////////////////////////////////////////////////////////////////////////////
 
             contents += `
 <article class="panel">
@@ -544,8 +496,6 @@ ${step.value.findall_solution_text}
 
         let card = msg.data;
         let step = card.step;
-
-        // console.log('format_suspend', JSON.stringify(card));
 
         let rule_id = r_id + '-' + s_id + '-' + 'sus' + '-' + window.rnb++;
 
@@ -597,8 +547,6 @@ ${step.value.findall_solution_text}
         let card = msg.data;
         let step = card.step;
 
-        // console.log('format_resume', JSON.stringify(card));
-
         let contents = "<hr/>";
 
         contents += `
@@ -646,8 +594,6 @@ ${step.value.findall_solution_text}
         let card = msg.data;
         let step = card.step;
 
-        // console.log('format_CHR', JSON.stringify(card));
-
         let contents = "<hr/>";
 
         contents += format_chr_failed_attempts(step.value.chr_failed_attempts, r_id, s_id);
@@ -662,8 +608,6 @@ ${step.value.findall_solution_text}
 
         let card = msg.data;
         let step = card.step;
-
-        // console.log('format_findall', JSON.stringify(card));
 
         let contents = "<hr/>";
 
@@ -689,8 +633,6 @@ ${step.value.findall_solution_text}
 
     function format_failed_attempts(element, r_id, s_id)
     {
-        // console.log('Formatting failed attempts', JSON.stringify(element));
-
         let contents = "";
 
         if(element == undefined)
@@ -721,8 +663,6 @@ ${step.value.findall_solution_text}
 
     function format_successful_attempts(element, r_id, s_id)
     {
-        // console.log('Formatting successful attempts', JSON.stringify(element));
-
         let contents = "";
 
         if(element == undefined)
@@ -756,8 +696,6 @@ ${step.value.findall_solution_text}
 
     function format_more_attempts(card, steps, r_id, s_id)
     {
-        // console.log('Formatting more attempts', JSON.stringify(card.step.value.more_successful_attempts), JSON.stringify(card.step.value.more_failing_attempts));
-
         let contents = "";
 
         if(card.step.value.more_successful_attempts == undefined && card.step.value.more_failing_attempts == undefined)
@@ -799,8 +737,6 @@ ${step.value.findall_solution_text}
 
     function format_chr_failed_attempts(element, r_id, s_id) {
 
-        // console.log('Formatting CHR failed attempts', JSON.stringify(element));
-
         let contents = "";
 
         if(element == undefined)
@@ -830,8 +766,6 @@ ${step.value.findall_solution_text}
 
     function format_chr_successful_attempts(element, r_id, s_id)
     {
-        // console.log('Formatting CHR successful attempts', JSON.stringify(element));
-
         let contents = "";
 
         if(element == undefined)
@@ -861,8 +795,6 @@ ${step.value.findall_solution_text}
 
     function format_stack(element, r_id, s_id)
     {
-        // console.log('Formatting stack', JSON.stringify(element));
-
         let fmt = "";
 
         fmt = `
@@ -877,17 +809,9 @@ ${step.value.findall_solution_text}
 
         for(var i = 0; i < element.length; i++) {
 
-            // fmt += '<div class="divider" onclick="inboxVue.jump('
-            // + goal_id_for_step_and_runtime(element[i].step_id, element[i].runtime_id)
-            // + ');">
-            // <a>' + ' (' + element[i].runtime_id + '|' + element[i].step_id + ') ' /* + element[i].rule.value.rule_text */
-            // + '</a></div>'
-
             let rr_id = element[i].runtime_id;
             let rs_id = element[i].step_id;
             let it_ids = ids_for_rt_st(rr_id, rs_id);
-
-            // console.log('format_stack:', 'it_ids', '[' + it_ids.join(', ') + ']');
 
             fmt += format_rule(element[i].rule, rr_id, rs_id, window.gls[it_ids[0]]);
         }
@@ -903,9 +827,6 @@ ${step.value.findall_solution_text}
 
     function format_rule(element, r_id, s_id, g_id)
     {
-
-      //return('<div>' + JSON.stringify(element) + '</div>');
-      //element = {"kind":"BuiltinRule","value":{"name":"implication","kind":{"kind":"Logic"},"payload":[]}}
 
         const rule_type = element.kind;
 
@@ -935,8 +856,6 @@ ${step.value.findall_solution_text}
         if(element.value.rule_loc) {
 
             const rule_loc_type = element.value.rule_loc.kind;
-
-            // console.log('Rule has a location of type', rule_loc_type);
 
             if (rule_loc_type == "File") {
 
@@ -989,14 +908,12 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${rule_loc_file} (${r
 <div id="${rule_id}" class="is-collapsible rule-inline">
     ${format_highlight_box(rule_text_full)}
 </div>`;
-        
+
         return fmt;
     }
 
     function format_events(element, r_id, s_id)
     {
-        // console.log('Formatting event', JSON.stringify(element));
-
         let fmt = "";
 
         for(var i = 0; i < element.length; i++) {
@@ -1020,7 +937,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${rule_loc_file} (${r
                     <div id="${rule_id}" class="is-collapsible rule-inline">
                         ${format_highlight_box(element[i].value)}
                     </div>`;
-        
+
         }
 
         return fmt;
@@ -1028,26 +945,17 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${rule_loc_file} (${r
 
     function format_siblings(element, r_id, s_id) // TODO: HERE - Assuming that
     {
-        // console.log('Formatting sibling', JSON.stringify(element));
-
         let fmt = "";
 
         for(var i = 0; i < element.length; i++) {
 
-            // console.log('1', window.goal_to_index.get(element[i].goal_id));
-            // console.log('2', window.inbox[window.goal_to_index.get(element[i].goal_id)]);
-
             let rule_id = r_id + '-' + s_id + '-' + 'sib' + '-' + window.rnb++;
             let  own_id = ids_for_rt_st(r_id, s_id);
 
-            let idxes = ids_for_rt_gl_not(r_id, element[i].goal_id, own_id); // window.goal_to_index.get(element[i].goal_id)
-
-            // console.log('3', idxes, r_id, element[i].goal_id, s_id);
+            let idxes = ids_for_rt_gl_not(r_id, element[i].goal_id, own_id);
 
             let index = idxes[0];
             let entry = index == undefined ? undefined : window.inbox[index];
-
-            // console.log('4', entry);
 
             let ds = ids_for_rt_gl(r_id, element[i].goal_id)[0];
 
@@ -1095,8 +1003,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${rule_loc_file} (${r
 
     function format_chr_attempt(element, r_id, s_id) {
 
-        // console.log('Formatting CHR attempt', JSON.stringify(element));
-
         let rule_id = r_id + '-' + s_id + '-' + 'cha' + '-' + window.rnb++;
 
         let attempt_text = element.chr_text;
@@ -1129,13 +1035,11 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 <div id="${rule_id}" class="is-collapsible rule-inline">
     ${format_highlight_box(attempt_text)}
 </div>`;
-        
+
         return fmt;
     }
 
     function format_chr_successful_attempt(element, r_id, s_id) {
-
-        // console.log('Formatting CHR SUCCESSFUL attempt', JSON.stringify(element));
 
         let fmt = format_chr_attempt(element.chr_attempt, r_id, s_id);
 
@@ -1185,8 +1089,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
     function format_chr_store_before(element, r_id, s_id) {
 
-        // console.log('Formatting CHR store before', JSON.stringify(element));
-
         let fmt = `
 <article class="panel">
     <div class="panel-heading">
@@ -1223,7 +1125,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
         fmt += `
     </div>
-    
+
     <div class="panel-element panel-element-footer"></div>
 </article>
 `;
@@ -1232,8 +1134,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
     }
 
     function format_chr_store_after(element, r_id, s_id) {
-
-        // console.log('Formatting CHR store qfter', JSON.stringify(element));
 
         let fmt = `
 <article class="panel">
@@ -1301,8 +1201,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
     function trace(data, elaborated) {
 
-        // console.log('Tracing ...');
-
         window.trace = data;
         window.steps = elaborated.steps;
         window.inbox = {};
@@ -1311,23 +1209,17 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 // NOTE: Refactoring goal mapping
 // /////////////////////////////////////////////////////////////////////////////
 
-        // window.goal_to_index = new Map();
-
         window.rts = [];
         window.sts = [];
         window.gls = [];
         window.rnb = 0;
-        
+
 // /////////////////////////////////////////////////////////////////////////////
 
         window.goal_navigation_stack = new Array();
         window.goal_navigation_index = -1;
         window.current_rt = -1;
         window.current_id = -1;
-
-// /////////////////////////////////////////////////////////////////////////////
-
-        window.popCount = 0;
 
 // /////////////////////////////////////////////////////////////////////////////
 // NOTE: Here: intertweening findall cards
@@ -1339,11 +1231,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 // NOTE: FindALL Case
 // /////////////////////////////////////////////////////////////////////////////
 
-            // console.log('parseSubRuns', 'for', JSON.stringify(window.inbox[from]));
-
             if (window.inbox[from].kind == "Findall") {
-
-                // console.log('Parsing subcards for', data[i].step);
 
                 for (var j = 0; j < data[i].step.value.findall_cards.length; j++) {
 
@@ -1357,8 +1245,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
                     if (goal_kind(data[i].step.value.findall_cards[j].step) == "Init")
                         continue;
-
-                    // console.log('Parsing subcard', data[i].step.value.findall_cards[j]);
 
                     window.inbox[c] = {
                         id: data[i].step.value.findall_cards[j].step_id,
@@ -1384,11 +1270,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                     map_st(c, window.inbox[c].id);
                     map_gl(c, window.inbox[c].goal_id);
 
-                    // if(!window.goal_to_index.has(window.inbox[c].goal_id))
-                    //     window.goal_to_index.set(window.inbox[c].goal_id, c);
-
-                    // console.log('MAP: Goal ID', window.inbox[c].goal_id, '->', c);
-
                     c++; // Ok, that is nerdy
 
                     c = parseSubRuns(window, data, i, c, c - 1);
@@ -1401,15 +1282,9 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
             if (window.inbox[from].kind == "CHR") {
 
-                // console.log('Parsing subcards for', JSON.stringify(data[i].step));
-
                 for (j = 0; j < data[i].step.value.chr_failed_attempts.length; j++) {
 
-                    // console.log('Parsing CHR FAILED subcard', data[i].step.value.chr_failed_attempts[j].chr_condition_cards);
-
                     for (var k = 0; k < data[i].step.value.chr_failed_attempts[j].chr_condition_cards.length; k++) {
-
-                        // console.log('Parsing subcard', data[i].step.value.chr_failed_attempts[j].chr_condition_cards[k]);
 
                         if (k == 0) {
                             window.inbox[from].rt_sub.push(data[i].step.value.chr_failed_attempts[j].chr_condition_cards[k].runtime_id);
@@ -1446,11 +1321,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                         map_st(c, window.inbox[c].id);
                         map_gl(c, window.inbox[c].goal_id);
 
-                        // if(!window.goal_to_index.has(window.inbox[c].goal_id))
-                        //     window.goal_to_index.set(window.inbox[c].goal_id, c);
-
-                        // console.log('MAP: Goal ID', window.inbox[c].goal_id, '->', c);
-
                         c++; // Ok, that is nerdy
 
                         c = parseSubRuns(window, data, i, c, c - 1);
@@ -1458,8 +1328,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                 }
 
                 for (j = 0; j < data[i].step.value.chr_successful_attempts.length; j++) {
-
-                    // console.log('Parsing CHR SUCCESSFUL subcard', data[i].step.value.chr_successful_attempts[j].chr_attempt.chr_condition_cards);
 
                     for (k = 0; k < data[i].step.value.chr_successful_attempts[j].chr_attempt.chr_condition_cards.length; k++) {
 
@@ -1473,8 +1341,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
                         if (goal_kind(data[i].step.value.chr_successful_attempts[j].chr_attempt.chr_condition_cards[k].step) == "Init")
                             continue;
-
-                        // console.log('Parsing subcard', data[i].step.value.chr_successful_attempts[j].chr_attempt.chr_condition_cards[k]);
 
                         window.inbox[c] = {
                             id: data[i].step.value.chr_successful_attempts[j].chr_attempt.chr_condition_cards[k].step_id,
@@ -1500,11 +1366,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                         map_st(c, window.inbox[c].id);
                         map_gl(c, window.inbox[c].goal_id);
 
-                        // if(!window.goal_to_index.has(window.inbox[c].goal_id))
-                        //     window.goal_to_index.set(window.inbox[c].goal_id, c);
-
-                        // console.log('MAP: Goal ID', window.inbox[c].goal_id, '->', c);
-
                         c++; // Ok, that is nerdy
 
                         c = parseSubRuns(window, data, i, c, c - 1);
@@ -1520,9 +1381,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
         let c = 0;
 
         for (var i = 0; i < data.length; i++) {
-
-            // console.log('---------------------');
-            // console.log(JSON.stringify(data[i]));
 
             if (goal_kind(data[i].step) == "Init") continue;
 
@@ -1549,11 +1407,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
             map_rt(c, window.inbox[c].rt);
             map_st(c, window.inbox[c].id);
             map_gl(c, window.inbox[c].goal_id);
-
-            // if(!window.goal_to_index.has(window.inbox[c].goal_id))
-            //     window.goal_to_index.set(window.inbox[c].goal_id, c);
-
-            // console.log('MAP: Goal ID', window.inbox[c].goal_id, '->', c);
 
             c++; // Ok, that is nerdy
 
@@ -1609,17 +1462,11 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
                 toggleSubCards: function(runtime_ids) {
 
-                    // console.log('Toggling subcards for runtimes', runtime_ids);
-
                     for(var i = 0; i < window.inboxCount; i++) {
 
                         for(var r = 0; r < runtime_ids.length; r++) {
 
-                            // console.log('Testing card of index', window.inbox[i].card_index, "of runtime id", window.inbox[i].rt, "with", runtime_ids[r]);
-
                             if(window.inbox[i].rt == runtime_ids[r]) {
-
-                                // console.log('Toggling card of index', window.inbox[i].card_index);
 
                                 document.getElementById(`msg-card-${window.inbox[i].card_index}`).classList.toggle('hidden')
                             }
@@ -1633,16 +1480,11 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                             : !!options.pushNavigation;
                     const force = !!options.force;
 
-                    // console.log('Try & show message', window.switch_anyways, msg.rt, window.current_rt, msg.id, window.current_id);
-                    // console.log('Try & show message', JSON.stringify(msg));
-
                     if(!force && msg.rt == window.current_rt && msg.id == window.current_id)
                         return;
 
                     window.current_rt = msg.rt;
                     window.current_id = msg.id;
-
-                    // console.log('Showing', msg, index);
 
                     document.getElementById('message-pane').classList.remove('is-hidden')
                     document.querySelectorAll('.card, .card-indented, .card-indented-last').forEach(c => c.classList.remove('active'))
@@ -1674,16 +1516,9 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                     // NOTE: Handling the navigation stack
                     // /////////////////////////////////////////////////////////////////////////////
 
-                    // console.log('NAV: Length', window.goal_navigation_stack.length);
-                    // console.log('NAV: Current', window.goal_navigation_index);
-
                     if(pushNavigation) {
 
-                        // console.log('NAV: Pushing', msg.goal_id);
-
                         if (window.goal_navigation_stack.length > window.goal_navigation_index) {
-
-                            // console.log('NAV: Adjusting');
 
                             while (window.goal_navigation_stack.length > window.goal_navigation_index + 1)
                                 window.inboxVue.$delete(window.inboxVue.stack, window.goal_navigation_stack.pop());
@@ -1711,8 +1546,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                       'inactive',
                       window.goal_navigation_index >= window.goal_navigation_stack.length - 1
                     )
-
-                    // console.log('showMessage: NAV STACK STATE', window.goal_navigation_stack, '(' + window.goal_navigation_index + ')');
 
                     for(var i = 0; i < window.goal_navigation_stack.length; i++) {
                         window.goal_navigation_stack[i].active = "";
@@ -1755,12 +1588,10 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                 clear: function() {
 
                     for(var i = 0; i < window.inboxCount; i++) {
-                        // console.log('Deleting card', i);
                         window.inboxVue.$delete(window.inboxVue.messages, i);
                     }
 
                     for(var i = 0; i < window.goal_navigation_stack.length; i++) {
-                        // console.log('Deleting card', i);
                         window.inboxVue.$delete(window.inboxVue.stack, i);
                     }
 
@@ -1802,33 +1633,14 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                 },
                 jump: function(index) {
 
-                    // if(goal == 'none') {
-                    //     vscode.postMessage({
-                    //         command: 'notify',
-                    //         value: 'There is no such goal to jump to: ' + goal
-                    //     });
-                    //     return;
-                    // }
-
                     document.getElementById('filter').value = ''; filter('');
-
-                    // console.log('jumping to', index);
-
-                    // const index = window.goal_to_index.get(goal);
-
-                    // console.log('got index', index, 'for goal', goal);
 
                     if (index !== undefined) {
                         window.inboxVue.showMessage(window.inbox[index], index);
 
                         scrollTo(index);
 
-                    } // else {
-                    //     vscode.postMessage({
-                    //         command: 'notify',
-                    //         value: 'There is no such goal to jump to: ' + goal
-                    //     });
-                    // }
+                    }
                 },
                 switchTo: function(index, runtime, step) {
 
@@ -1909,15 +1721,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
             value: e.target.value
         });
     });
-
-    // $(document).on("click", "a", function() {
-    //     if ($(this).hasClass('file-location')) {
-    //         vscode.postMessage({
-    //             command: 'hopTo',
-    //             value: $(this).text()
-    //         });
-    //     }
-    // });
 
     var quickviews = bulmaQuickview.attach();
     var accordions;
