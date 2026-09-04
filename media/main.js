@@ -380,13 +380,9 @@ import * as E from 'shared/elaborator/index.mjs';
 
         var previous = window.goal_navigation_stack[window.goal_navigation_index];
 
-        window.prevent_nav_handling = true;
-
-        window.inboxVue.showMessage(previous.msg, previous.index);
+        window.inboxVue.showMessage(previous.msg, previous.index, { pushNavigation: false });
 
         scrollTo(previous.index);
-
-        window.prevent_nav_handling = false;
     }
 
     function forw() {
@@ -402,13 +398,9 @@ import * as E from 'shared/elaborator/index.mjs';
 
         var following = window.goal_navigation_stack[window.goal_navigation_index];
 
-        window.prevent_nav_handling = true;
-
-        window.inboxVue.showMessage(following.msg, following.index);
+        window.inboxVue.showMessage(following.msg, following.index, { pushNavigation: false });
 
         scrollTo(following.index);
-
-        window.prevent_nav_handling = false;
     }
 
     function scrollTo(index) {
@@ -574,7 +566,14 @@ ${step.value.findall_solution_text}
              <span class="mdi mdi-lambda" aria-hidden="true"></span>
           </a>
       </span>
-      <span onclick="inboxVue.jump(${ds});" class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="Goal ID: ${step.value.suspend_sibling.goal_id} - - (${window.inbox[ds].rt}, ${window.inbox[ds].id})">
+      <span
+        class="has-tooltip-arrow has-tooltip-bottom"
+        ${typeof ds !== 'undefined' ? `onclick="inboxVue.jump(${ds});"` : ''}
+        data-tooltip="Goal ID: ${step.value.suspend_sibling.goal_id} - - ${
+          typeof ds !== 'undefined'
+            ? `(${window.inbox[ds].rt}, ${window.inbox[ds].id})`
+            : '(never resumed)'
+        }">
         ${elide(20, step.value.suspend_sibling.goal_text)}
       </span>
     </div>
@@ -1627,12 +1626,17 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                         }
                     }
                 },
-                showMessage: function(msg, index) {
+                showMessage: function(msg, index, options = { pushNavigation: true, force: false }) {
+                    const pushNavigation =
+                        typeof options.pushNavigation === 'undefined'
+                            ? true
+                            : !!options.pushNavigation;
+                    const force = !!options.force;
 
                     // console.log('Try & show message', window.switch_anyways, msg.rt, window.current_rt, msg.id, window.current_id);
                     // console.log('Try & show message', JSON.stringify(msg));
 
-                    if(!window.switch_anyways && msg.rt == window.current_rt && msg.id == window.current_id)
+                    if(!force && msg.rt == window.current_rt && msg.id == window.current_id)
                         return;
 
                     window.current_rt = msg.rt;
@@ -1672,8 +1676,8 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
                     // console.log('NAV: Length', window.goal_navigation_stack.length);
                     // console.log('NAV: Current', window.goal_navigation_index);
-                    
-                    if(window.prevent_nav_handling == false) {
+
+                    if(pushNavigation) {
 
                         // console.log('NAV: Pushing', msg.goal_id);
 
@@ -1715,7 +1719,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                     }
 
                     window.goal_navigation_stack[window.goal_navigation_index].active = "active";
-                    window.switch_anyways = false;
 
                     // /////////////////////////////////////////////////////////////////////////////
                     // Toggling
@@ -1835,14 +1838,9 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
                     var destination = window.goal_navigation_stack[window.goal_navigation_index];
 
-                    window.prevent_nav_handling = true;
-                    window.switch_anyways = true;
-
-                    window.inboxVue.showMessage(destination.msg, destination.index);
+                    window.inboxVue.showMessage(destination.msg, destination.index, { pushNavigation: false, force: true });
 
                     scrollTo(ids_for_rt_st(runtime, step)[0]);
-
-                    window.prevent_nav_handling = false;
                 }
             }
         });
@@ -1854,8 +1852,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
     trace({}, {});
 
-    window.prevent_nav_handling = false;
-    window.switch_anyways = true;
     window.filter_type = "goal";
 
     // /////////////////////////////////////////////////////////////////////////////
