@@ -1455,9 +1455,6 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                 messages: window.inbox,
                 stack: window.goal_navigation_stack,
             },
-            updated: () => {
-                document.querySelector('#navstack li.active')?.scrollIntoView()
-            },
             methods: {
 
                 toggleSubCards: function(runtime_ids) {
@@ -1552,6 +1549,10 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                     }
 
                     window.goal_navigation_stack[window.goal_navigation_index].active = "active";
+
+                    window.inboxVue.$nextTick(() =>
+                      document.querySelector(`#navstack li:nth-child(${window.goal_navigation_index + 1})`)?.scrollIntoView()
+                    )
 
                     // /////////////////////////////////////////////////////////////////////////////
                     // Toggling
