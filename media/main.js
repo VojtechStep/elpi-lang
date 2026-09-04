@@ -15,7 +15,8 @@ import * as E from 'shared/elaborator/index.mjs';
             case 'trace':
                 clear();
                 try {
-                    trace(E.elaborate(message.source))
+                    const elaborated = E.elaborate(message.source)
+                    trace(elaborated.cards, elaborated.elaborated)
                     document.getElementById('trace-information').value = message.file + ' on ' + new Date().toISOString();
                 } catch (e) {
                     console.error('Error while elaborating trace', e)
@@ -57,6 +58,7 @@ import * as E from 'shared/elaborator/index.mjs';
         });
     }
 
+    // TODO: All of these should probably have a pre-built index instead of repeatedly hammering all cards
     function ids_for_rt(rt) {
 
         let ids = [];
@@ -283,7 +285,7 @@ import * as E from 'shared/elaborator/index.mjs';
 
     // This one has a terrible complexity, tends to quadratic, Urf, TO BE REVIEWED
 
-    function goal_status_label(card, trace, ds_r)
+    function goal_status_label(card, steps, ds_r)
     {
         let status = card.color.kind;
 
@@ -307,14 +309,11 @@ import * as E from 'shared/elaborator/index.mjs';
 
             goal_ds[0] = step_id;
 
-            for(var j = 0; j < trace.length; j++) {
-                if(trace[j].step_id    == step_id
-                && trace[j].runtime_id == runt_id) {
-                    goal_ds[1] = goal_id(trace[j].step);
-                    break;
-                }
+            const found_goal = steps.get({ step: step_id, runtime: runt_id })
+            if (found_goal) {
+                goal_ds[1] = found_goal.step.goalId ?? 'none';
             }
-                    
+
             goal_ds[2] = ids_for_rt_st_gl(ds_r, goal_ds[0], goal_ds[1])[0];
             destinations.push(goal_ds);
 
@@ -523,7 +522,7 @@ import * as E from 'shared/elaborator/index.mjs';
         contents += format_successful_attempts(step.value.successful_attempts, r_id, s_id);
         if (status.includes("Yellow") && card.step.kind == "Inference")
         {
-            contents += format_more_attempts(msg.data, window.trace, r_id, s_id);
+            contents += format_more_attempts(msg.data, window.steps, r_id, s_id);
         }
         contents += format_stack(step.value.stack, r_id, s_id);
 
@@ -812,7 +811,7 @@ ${step.value.findall_solution_text}
         return contents;
     }
 
-    function format_more_attempts(card, trace, r_id, s_id)
+    function format_more_attempts(card, steps, r_id, s_id)
     {
         // console.log('Formatting more attempts', JSON.stringify(card.step.value.more_successful_attempts), JSON.stringify(card.step.value.more_failing_attempts));
 
@@ -834,7 +833,7 @@ ${step.value.findall_solution_text}
     <div>
 `;
 
-        let destinations = goal_status_label(card, trace, r_id);
+        let destinations = goal_status_label(card, steps, r_id);
 
         for(var i = 0; i < destinations.length; i++) {
             contents += `
@@ -1357,11 +1356,12 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 // Main entry point
 // /////////////////////////////////////////////////////////////////////////////
 
-    function trace(data) {
+    function trace(data, elaborated) {
 
         // console.log('Tracing ...');
 
         window.trace = data;
+        window.steps = elaborated.steps;
         window.inbox = {};
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -1621,7 +1621,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
         for (var i = 0; i < c; i++) {
         
-            window.inbox[i].status_label = goal_status_label(window.inbox[i].data, data, window.inbox[i].rt);
+            window.inbox[i].status_label = goal_status_label(window.inbox[i].data, window.steps, window.inbox[i].rt);
         
 // /////////////////////////////////////////////////////////////////////////////
 // Syntax highlighting
@@ -1971,7 +1971,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
     // Initial display
     // /////////////////////////////////////////////////////////////////////////////
 
-    trace({});
+    trace({}, {});
 
     window.prevent_nav_handling = false;
     window.switch_anyways = true;
