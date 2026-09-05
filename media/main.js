@@ -1,12 +1,44 @@
 // This script will be run within the webview itself
 // It cannot access the main VS Code APIs directly.
 import * as E from 'shared/elaborator/index.mjs';
+import { elide } from 'shared/string.mjs';
+import * as F from 'client/messageFeed.mjs';
+import * as N from 'client/navigationHistory.mjs';
 (function () {
     const vscode = acquireVsCodeApi();
 
-    // TODO: cache the various document.getElementById calls here after
-    // Vue is removed; currently the elements wouldn't survive
-    // rehydration
+    const $feed = new F.MessageFeed(
+        document.getElementById('message-feed'),
+        showMessage,
+        jumpTo,
+        toggleSubCards,
+    );
+    const $navstack = new N.Navstack(
+        document.getElementById('navstack'),
+        document.getElementById('back_b'),
+        document.getElementById('forw_b'),
+        jumpTo,
+    );
+
+    const $filter = document.getElementById('filter');
+    const $filterText = document.getElementById('filter-text');
+    const $pane = document.getElementById('message-pane');
+    const $snippet = document.getElementById('snippet');
+    const $traceInfo = document.getElementById('trace-information');
+    const $loader = document.getElementById('loader');
+
+    const $paneGoal = document.getElementById('message-pane-goal');
+    const $paneGoalId = document.getElementById('message-pane-goal-id');
+    const $paneRid = document.getElementById('message-pane-rid');
+    const $paneSid = document.getElementById('message-pane-sid');
+    const $paneContent = document.getElementById('message-pane-card-content');
+
+    // TODO: compatibility object for exposing event handlers to the message pane.
+    // Should be removed once the pane is refactored properly
+    window.inboxVue = {
+        jump: jumpTo,
+        hop: showEditor
+    }
 
     // Handle messages sent from the extension to the webview
     window.addEventListener('message', event => {
@@ -20,7 +52,7 @@ import * as E from 'shared/elaborator/index.mjs';
                     try {
                         const elaborated = E.elaborate(message.source)
                         trace(elaborated.cards, elaborated.elaborated)
-                        document.getElementById('trace-information').value = message.file + ' on ' + new Date().toISOString();
+                        $traceInfo.value = message.file + ' on ' + new Date().toISOString();
                     } catch (e) {
                         console.error('Error while elaborating trace', e)
                         vscode.postMessage({
@@ -39,15 +71,6 @@ import * as E from 'shared/elaborator/index.mjs';
                 break;
         }
     });
-
-    function elide(i, str) {
-
-        // Take into account that ' ... ' extends the string
-        if (str.length < 2*i + 5)
-            return str;
-
-        return str.substring(0, i) + ' ... ' + str.substring(str.length - i)
-    }
 
     // /////////////////////////////////////////////////////////////////////////////
     // NOTE: Goal mapping refactoring helpers
@@ -298,78 +321,177 @@ import * as E from 'shared/elaborator/index.mjs';
     }
 
     // /////////////////////////////////////////////////////////////////////////////
-    // Ergonomic helper functions
+    // Interaction functions
     // /////////////////////////////////////////////////////////////////////////////
 
     function filter(text) {
 
         if (text == '') {
-            for (var i = 0; i < window.inboxCount; i++) {
-                document.getElementById(`msg-card-${window.inbox[i].card_index}`).classList.remove('hidden')
-            }
+            window.inbox.forEach(c => {
+                document.getElementById(`msg-card-${c.card_index}`).classList.remove('hidden')
+            });
             return;
         }
 
-        for (var i = 0; i < window.inboxCount; i++) {
-
+        window.inbox.forEach(c => {
             if (window.filter_type == "goal") {
-                var ratio = fuzzball.ratio(text, window.inbox[i].goal_text);
+                var ratio = fuzzball.ratio(text, c.goal_text);
 
-                document.getElementById(`msg-card-${window.inbox[i].card_index}`).classList.toggle(
-                  'hidden',
-                  !(ratio > 80 || window.inbox[i].goal_text.startsWith(text) || window.inbox[i].goal_text.includes(text))
+                document.getElementById(`msg-card-${c.card_index}`).classList.toggle(
+                    'hidden',
+                    !(ratio > 80 || c.goal_text.startsWith(text) || c.goal_text.includes(text))
                 )
             }
 
             if (window.filter_type == "predicate") {
-                var ratio = fuzzball.ratio(text, window.inbox[i].goal_predicate);
+                var ratio = fuzzball.ratio(text, c.goal_predicate);
 
-                document.getElementById(`msg-card-${window.inbox[i].card_index}`).classList.toggle(
-                  'hidden',
-                  !(ratio > 80 || window.inbox[i].goal_predicate.startsWith(text) || window.inbox[i].goal_predicate.includes(text))
+                document.getElementById(`msg-card-${c.card_index}`).classList.toggle(
+                    'hidden',
+                    !(ratio > 80 || c.goal_predicate.startsWith(text) || c.goal_predicate.includes(text))
                 )
             }
 
             if (window.filter_type == "kind") {
-                var ratio = fuzzball.ratio(text, window.inbox[i].type);
-                document.getElementById(`msg-card-${window.inbox[i].card_index}`).classList.toggle(
-                  'hidden',
-                  !(ratio > 80 || window.inbox[i].kind.startsWith(text) || window.inbox[i].kind.includes(text))
+                var ratio = fuzzball.ratio(text, c.type);
+                document.getElementById(`msg-card-${c.card_index}`).classList.toggle(
+                    'hidden',
+                    !(ratio > 80 || c.kind.startsWith(text) || c.kind.includes(text))
                 )
             }
+        });
+    }
+
+    function clearFilter() {
+        $filter.value = '';
+        filter('');
+    }
+
+    function showEditor(destination) {
+        vscode.postMessage({
+            command: 'hopTo',
+            value: destination
+        });
+    }
+
+    function jumpTo(index, options) {
+        if (typeof index === 'undefined') {
+            return;
         }
+
+        clearFilter();
+        showMessage(index, options);
+        scrollTo(index);
     }
 
-    function back() {
+    function showMessage(index, options = { pushNavigation: true }) {
+        const pushNavigation =
+              typeof options.pushNavigation === 'undefined'
+              ? true
+              : !!options.pushNavigation;
 
-        if (window.goal_navigation_index < 1)
+        const msg = window.inbox[index]
+
+        if (msg.rt == window.current_rt && msg.id == window.current_id)
             return;
 
-        document.getElementById('filter').value = ''; filter('');
+        window.current_rt = msg.rt;
+        window.current_id = msg.id;
 
-        window.goal_navigation_index = window.goal_navigation_index - 1;
+        $pane.classList.remove('is-hidden')
+        // TODO: make this more targeted?
+        document.querySelectorAll('.card, .card-indented, .card-indented-last').forEach(c => c.classList.remove('active'))
+        document.getElementById(`msg-card-${index}`).classList.add('active')
 
-        var previous = window.goal_navigation_stack[window.goal_navigation_index];
+        // TODO: why does this need a nested div? Is it just the event listener reloading?
+        const goalDiv = document.createElement('div');
+        goalDiv.dataset['inboxId'] = index.toString();
+        goalDiv.addEventListener('click', setSnippet);
+        goalDiv.innerHTML = msg.goal_text_highlighted_elided;
+        $paneGoal.replaceChildren(goalDiv);
 
-        window.inboxVue.showMessage(previous.msg, previous.index, { pushNavigation: false });
+        $paneGoalId.textContent = msg.goal_id;
 
-        scrollTo(previous.index);
+        $paneRid.textContent = msg.rt;
+        $paneSid.textContent = msg.id;
+
+        // /////////////////////////////////////////////////////////////////////////////
+        // TODO: Card pane refactoring entry point
+        // /////////////////////////////////////////////////////////////////////////////
+
+        $paneContent.innerHTML = format(msg);
+
+        // /////////////////////////////////////////////////////////////////////////////
+
+        // /////////////////////////////////////////////////////////////////////////////
+        // NOTE: Handling the navigation stack
+        // /////////////////////////////////////////////////////////////////////////////
+
+        if (pushNavigation) {
+
+            $navstack.push(index, `(${msg.rt}, ${msg.id})`)
+        }
+
+        // /////////////////////////////////////////////////////////////////////////////
+        // Toggling
+        // /////////////////////////////////////////////////////////////////////////////
+
+        // TODO: This element yoga feels quite unstable, since it's aware of whitespace text nodes...
+        // Try replacing it with classes+closest or data-toggles-id?
+        // NB: we're always reregistering the handlers because these elements are created by format() above
+        //     which is also why those references are not cached
+        document.getElementById('toggle_f')?.addEventListener('click', (e) => {
+            e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
+        });
+        document.getElementById('toggle_s')?.addEventListener('click', (e) => {
+            e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
+        });
+        document.getElementById('toggle_t')?.addEventListener('click', (e) => {
+            e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
+        });
+        document.getElementById('toggle_ms')?.addEventListener('click', (e) => {
+            e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
+        });
+        document.getElementById('toggle_stb')?.addEventListener('click', (e) => {
+            e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
+        });
+        document.getElementById('toggle_sta')?.addEventListener('click', (e) => {
+            e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
+        });
+
+        accordions = bulmaCollapsible.attach('.is-collapsible');
+
+        // TODO: I don't see a reason why this hack should stay in place
+        document.querySelectorAll('.no_jump_hack').forEach(e => e.addEventListener('click', e => {
+            e.preventDefault();
+            return false;
+        }))
     }
 
-    function forw() {
+    function setSnippet(ev) {
 
-        if (window.goal_navigation_index == window.goal_navigation_stack.length - 1)
-            return;
+        const index = parseInt(ev.currentTarget.dataset['inboxId']);
 
-        document.getElementById('filter').value = ''; filter('');
+        console.log('Setting snippet for index', index);
 
-        window.goal_navigation_index = window.goal_navigation_index + 1;
+        $snippet.innerHTML = window.inbox[index].goal_text_highlighted;
 
-        var following = window.goal_navigation_stack[window.goal_navigation_index];
+        console.log(quickviews);
+        console.log(quickviews[0]);
 
-        window.inboxVue.showMessage(following.msg, following.index, { pushNavigation: false });
+        quickviews[0].quickview.classList.toggle('is-active');
+        quickviews[0].emit('quickview:toggle', {
+            element: quickviews[0].element,
+            quickview: quickviews[0].quickview,
+        });
+    }
 
-        scrollTo(following.index);
+    function toggleSubCards(runtimeIds) {
+        window.inbox.forEach(step => {
+            if (runtimeIds.includes(step.rt)) {
+                document.getElementById(`msg-card-${step.card_index}`).classList.toggle('hidden');
+            }
+        })
     }
 
     function scrollTo(index) {
@@ -379,6 +501,7 @@ import * as E from 'shared/elaborator/index.mjs';
 
     // /////////////////////////////////////////////////////////////////////////////
     // Formatting functions
+    // TODO: extract to its own module
     // /////////////////////////////////////////////////////////////////////////////
 
     function format(msg) {
@@ -475,8 +598,8 @@ ${step.value.findall_solution_text}
 <article class="panel">
     <div class="panel-heading">
         Cut branch for <span onclick="inboxVue.jump(${ds});" class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="Goal ID: ${step.value.cut_victims[i].cut_branch_for_goal.goal_id} - (${window.inbox[ds].rt}, ${window.inbox[ds].id})`;
-	    contents += '\n\n' + step.value.cut_victims[i].cut_branch_for_goal.goal_text.replace(/['"]+/g, '');
-	    contents += `">
+            contents += '\n\n' + step.value.cut_victims[i].cut_branch_for_goal.goal_text.replace(/['"]+/g, '');
+            contents += `">
           ${elide(20, step.value.cut_victims[i].cut_branch_for_goal.goal_text)}
         </span>
     </div>
@@ -632,7 +755,7 @@ ${step.value.findall_solution_text}
         return contents;
     }
 
-// /////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////
 
     function format_failed_attempts(element, r_id, s_id)
     {
@@ -683,9 +806,10 @@ ${step.value.findall_solution_text}
         for(var i = 0; i < element.length; i++) {
             contents += format_rule(element[i].attempt.rule, r_id, s_id);
             contents += format_events(element[i].attempt.events, r_id, s_id);
-            if (element[i].siblings.length)
-            contents += '<div class="divider">Subgoals</div>';
-            contents += format_siblings(element[i].siblings, r_id, s_id);
+            if (element[i].siblings.length) {
+                contents += '<div class="divider">Subgoals</div>';
+                contents += format_siblings(element[i].siblings, r_id, s_id);
+            }
         }
 
         contents += `
@@ -903,7 +1027,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${rule_loc_file} (${r
         } else {
             fmt += `<span>`;
         }
-            fmt += `
+        fmt += `
     ${elide(20, rule_text)}
   </span>
 
@@ -1052,6 +1176,8 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
             let ds = ids_for_rt_gl(r_id, element.chr_removed_goals[i])[0];
 
+            // TODO: indicate when a goal has no associated card.
+            // Is it even possible to have a card?
             fmt += `
     <div class="panel-element">
       <span onclick="inboxVue.jump(${ds});" class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="Goal ID: ${element.chr_removed_goals[i]}">
@@ -1189,50 +1315,58 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
     function clear() {
 
-        if (window.inboxVue !== undefined && window.inboxCount !== undefined) {
-            window.inboxVue.clear();
-            window.inboxVue.clear_navigation();
+        // Clean up components
+        $feed.reset();
+        $navstack.reset();
 
-            document.getElementById('filter').value = ''; filter('');
-            document.getElementById('trace-information').value = '';
-        }
+        // Clean up data
+        delete window.steps;
+        delete window.inbox;
+        delete window.rts;
+        delete window.sts;
+        delete window.gls;
+
+        // Clean up presentation
+        $pane.classList.add('is-hidden')
+        $filter.value = '';
+        $traceInfo.value = '';
     }
 
-// /////////////////////////////////////////////////////////////////////////////
-// Main entry point
-// /////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////
+    // Main entry point
+    // /////////////////////////////////////////////////////////////////////////////
 
     function trace(data, elaborated) {
 
-        window.trace = data;
         window.steps = elaborated.steps;
-        window.inbox = {};
+        window.inbox = [];
 
-// /////////////////////////////////////////////////////////////////////////////
-// NOTE: Refactoring goal mapping
-// /////////////////////////////////////////////////////////////////////////////
+        // /////////////////////////////////////////////////////////////////////////////
+        // NOTE: Refactoring goal mapping
+        // /////////////////////////////////////////////////////////////////////////////
 
         window.rts = [];
         window.sts = [];
         window.gls = [];
         window.rnb = 0;
 
-// /////////////////////////////////////////////////////////////////////////////
+        // /////////////////////////////////////////////////////////////////////////////
 
-        window.goal_navigation_stack = new Array();
-        window.goal_navigation_index = -1;
         window.current_rt = -1;
         window.current_id = -1;
 
-// /////////////////////////////////////////////////////////////////////////////
-// NOTE: Here: intertweening findall cards
-// /////////////////////////////////////////////////////////////////////////////
+        // /////////////////////////////////////////////////////////////////////////////
+        // NOTE: Here: intertweening findall cards
+        // /////////////////////////////////////////////////////////////////////////////
+
+        // TODO: try moving this preprocessing to elaborator/presentation,
+        // now that elaboration is an implementation detail of the extension
 
         let parseSubRuns = (window, data, i, c, from) => {
 
-// /////////////////////////////////////////////////////////////////////////////
-// NOTE: FindALL Case
-// /////////////////////////////////////////////////////////////////////////////
+            // /////////////////////////////////////////////////////////////////////////////
+            // NOTE: FindALL Case
+            // /////////////////////////////////////////////////////////////////////////////
 
             if (window.inbox[from].kind == "Findall") {
 
@@ -1279,9 +1413,9 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                 }
             }
 
-// /////////////////////////////////////////////////////////////////////////////
-// NOTE: CHR Case
-// /////////////////////////////////////////////////////////////////////////////
+            // /////////////////////////////////////////////////////////////////////////////
+            // NOTE: CHR Case
+            // /////////////////////////////////////////////////////////////////////////////
 
             if (window.inbox[from].kind == "CHR") {
 
@@ -1376,7 +1510,7 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
                 }
             }
 
-// /////////////////////////////////////////////////////////////////////////////
+            // /////////////////////////////////////////////////////////////////////////////
 
             return c;
         };
@@ -1416,15 +1550,12 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
             c = parseSubRuns(window, data, i, c, c - 1);
         }
 
-        window.inboxCount = c;
-
         for (var i = 0; i < c; i++) {
-        
             window.inbox[i].status_label = goal_status_label(window.inbox[i].data, window.steps, window.inbox[i].rt);
-        
-// /////////////////////////////////////////////////////////////////////////////
-// Syntax highlighting
-// /////////////////////////////////////////////////////////////////////////////
+
+            // /////////////////////////////////////////////////////////////////////////////
+            // Syntax highlighting
+            // /////////////////////////////////////////////////////////////////////////////
 
             window.inbox[i].goal_text_elided = elide(25, window.inbox[i].goal_text);
 
@@ -1432,241 +1563,20 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
             window.inbox[i].goal_text_highlighted_elided = format_highlight_box(window.inbox[i].goal_text_elided)
 
-// /////////////////////////////////////////////////////////////////////////////
+            // /////////////////////////////////////////////////////////////////////////////
         }
 
-// /////////////////////////////////////////////////////////////////////////////
+        // /////////////////////////////////////////////////////////////////////////////
 
-        document.getElementById('message-feed').classList.remove('is-hidden')
+        $feed.show(window.inbox);
 
-        if (window.inboxVue !== undefined) {
-            window.inboxVue.messages = window.inbox;
-            window.inboxVue.stack = window.goal_navigation_stack;
-
-            // Needs to happen after the DOM nodes are added by Vue
-            window.inboxVue.$nextTick(() => {
-                for(var i = 0; i < window.inboxCount; i++)
-                    document.getElementById(`msg-card-${i}`).classList.remove('active')
-            });
-
-            return;
-        }
-
-        window.inboxVue = new Vue({
-            el: '#tracer',
-            data: {
-                messages: window.inbox,
-                stack: window.goal_navigation_stack,
-            },
-            methods: {
-
-                toggleSubCards: function(runtime_ids) {
-
-                    for(var i = 0; i < window.inboxCount; i++) {
-
-                        for(var r = 0; r < runtime_ids.length; r++) {
-
-                            if(window.inbox[i].rt == runtime_ids[r]) {
-
-                                document.getElementById(`msg-card-${window.inbox[i].card_index}`).classList.toggle('hidden')
-                            }
-                        }
-                    }
-                },
-                showMessage: function(msg, index, options = { pushNavigation: true, force: false }) {
-                    const pushNavigation =
-                        typeof options.pushNavigation === 'undefined'
-                            ? true
-                            : !!options.pushNavigation;
-                    const force = !!options.force;
-
-                    if(!force && msg.rt == window.current_rt && msg.id == window.current_id)
-                        return;
-
-                    window.current_rt = msg.rt;
-                    window.current_id = msg.id;
-
-                    document.getElementById('message-pane').classList.remove('is-hidden')
-                    document.querySelectorAll('.card, .card-indented, .card-indented-last').forEach(c => c.classList.remove('active'))
-                    document.getElementById(`msg-card-${index}`).classList.add('active')
-
-                    let code = `
-<div onclick="window.inboxVue.set_snippet(${index});">
-`;
-                    code += msg.goal_text_highlighted_elided;
-                    code += `
-</div>
-`;
-                    document.getElementById('message-pane-goal').innerHTML = code;
-
-                    document.getElementById('message-pane-goal-id').textContent = msg.goal_id;
-
-                    document.getElementById('message-pane-rid').textContent = msg.rt;
-                    document.getElementById('message-pane-sid').textContent = msg.id;
-
-// /////////////////////////////////////////////////////////////////////////////
-// TODO: Card pane refactoring entry point
-// /////////////////////////////////////////////////////////////////////////////
-
-                    document.getElementById('message-pane-card-content').innerHTML = format(msg);
-
-// /////////////////////////////////////////////////////////////////////////////
-
-                    // /////////////////////////////////////////////////////////////////////////////
-                    // NOTE: Handling the navigation stack
-                    // /////////////////////////////////////////////////////////////////////////////
-
-                    if(pushNavigation) {
-
-                        if (window.goal_navigation_stack.length > window.goal_navigation_index) {
-
-                            while (window.goal_navigation_stack.length > window.goal_navigation_index + 1)
-                                window.inboxVue.$delete(window.inboxVue.stack, window.goal_navigation_stack.pop());
-                        }
-
-                        window.goal_navigation_index = window.goal_navigation_index + 1;
-                        window.goal_navigation_stack.push({
-                            goal: msg.goal_id,
-                            rt: msg.rt,
-                            id: msg.id,
-                            active: "",
-                            msg: msg,
-                            index: index
-                        });
-
-                        document.getElementById('nav_clear').classList.remove('is-hidden')
-                    }
-
-                    document.getElementById('back_b').classList.toggle(
-                      'inactive',
-                      window.goal_navigation_stack.length <= 1 || window.goal_navigation_index === 0
-                    );
-
-                    document.getElementById('forw_b').classList.toggle(
-                      'inactive',
-                      window.goal_navigation_index >= window.goal_navigation_stack.length - 1
-                    )
-
-                    for(var i = 0; i < window.goal_navigation_stack.length; i++) {
-                        window.goal_navigation_stack[i].active = "";
-                    }
-
-                    window.goal_navigation_stack[window.goal_navigation_index].active = "active";
-
-                    window.inboxVue.$nextTick(() =>
-                      document.querySelector(`#navstack li:nth-child(${window.goal_navigation_index + 1})`)?.scrollIntoView()
-                    )
-
-                    // /////////////////////////////////////////////////////////////////////////////
-                    // Toggling
-                    // /////////////////////////////////////////////////////////////////////////////
-
-                    // TODO: This element yoga feels quite unstable, since it's aware of whitespace text nodes...
-                    document.getElementById('toggle_f')?.addEventListener('click', (e) => {
-                        e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
-                    });
-                    document.getElementById('toggle_s')?.addEventListener('click', (e) => {
-                        e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
-                    });
-                    document.getElementById('toggle_t')?.addEventListener('click', (e) => {
-                        e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
-                    });
-                    document.getElementById('toggle_ms')?.addEventListener('click', (e) => {
-                        e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
-                    });
-                    document.getElementById('toggle_stb')?.addEventListener('click', (e) => {
-                        e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
-                    });
-                    document.getElementById('toggle_sta')?.addEventListener('click', (e) => {
-                        e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
-                    });
-
-                    accordions = bulmaCollapsible.attach('.is-collapsible');
-
-                    // TODO: I don't see a reason why this hack should stay in place
-                    document.querySelectorAll('.no_jump_hack').forEach(e => e.addEventListener('click', e => {
-                        e.preventDefault();
-                        return false;
-                    }))
-                },
-                clear: function() {
-
-                    for(var i = 0; i < window.inboxCount; i++) {
-                        window.inboxVue.$delete(window.inboxVue.messages, i);
-                    }
-
-                    for(var i = 0; i < window.goal_navigation_stack.length; i++) {
-                        window.inboxVue.$delete(window.inboxVue.stack, i);
-                    }
-
-                    document.getElementById('message-pane').classList.add('is-hidden')
-
-                    window.inboxCount = 0;
-                },
-                clear_navigation: function() {
-                    window.goal_navigation_index = -1;
-
-                    while(window.goal_navigation_stack.length > 0)
-                        window.goal_navigation_stack.pop();
-
-                    document.getElementById('back_b').classList.add('inactive');
-                    document.getElementById('forw_b').classList.add('inactive');
-
-                    document.getElementById('nav_clear').classList.add('is-hidden');
-                },
-                set_snippet: (index) => {
-
-                    console.log('Setting snippet for index', index);
-
-                    document.getElementById('snippet').innerHTML = window.inbox[index].goal_text_highlighted;
-
-                    console.log(quickviews);
-                    console.log(quickviews[0]);
-
-                    quickviews[0].quickview.classList.toggle('is-active');
-                    quickviews[0].emit('quickview:toggle', {
-                          element: quickviews[0].element,
-                        quickview: quickviews[0].quickview,
-                    });
-                },
-                hop: function(destination) {
-                    vscode.postMessage({
-                        command: 'hopTo',
-                        value: destination
-                    });
-                },
-                jump: function(index) {
-
-                    document.getElementById('filter').value = ''; filter('');
-
-                    if (index !== undefined) {
-                        window.inboxVue.showMessage(window.inbox[index], index);
-
-                        scrollTo(index);
-
-                    }
-                },
-                switchTo: function(index, runtime, step) {
-
-                    document.getElementById('filter').value = ''; filter('');
-
-                    window.goal_navigation_index = index;
-
-                    var destination = window.goal_navigation_stack[window.goal_navigation_index];
-
-                    window.inboxVue.showMessage(destination.msg, destination.index, { pushNavigation: false, force: true });
-
-                    scrollTo(ids_for_rt_st(runtime, step)[0]);
-                }
-            }
-        });
     }
 
     // /////////////////////////////////////////////////////////////////////////////
     // Initial display
     // /////////////////////////////////////////////////////////////////////////////
 
-    trace({}, {});
+    trace([], {});
 
     window.filter_type = "goal";
 
@@ -1676,12 +1586,9 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
 
     // use the "input" event for filtering on each keystroke instead
     // NB: not triggered by programatically setting `value`
-    document.getElementById('filter').addEventListener('change', e =>
-      filter(e.target.value)
+    $filter.addEventListener('change', e =>
+        filter(e.target.value)
     )
-
-    document.getElementById('back_b').addEventListener('click', () => back());
-    document.getElementById('forw_b').addEventListener('click', () => forw());
 
     // /////////////////////////////////////////////////////////////////////////////
     // Filtering section
@@ -1704,19 +1611,19 @@ class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="${attempt_loc_file} (
     })
 
     document.getElementById('filter-by-goal').addEventListener('click', () => {
-        document.getElementById('filter-text').textContent = 'Filter by goal';
+        $filterText.textContent = 'Filter by goal';
         window.filter_type = 'goal';
-        filter(document.getElementById('filter').value);
+        filter($filter.value);
     });
     document.getElementById('filter-by-predicate').addEventListener('click', () => {
-        document.getElementById('filter-text').textContent = 'Filter by predicate';
+        $filterText.textContent = 'Filter by predicate';
         window.filter_type = 'predicate';
-        filter(document.getElementById('filter').value);
+        filter($filter.value);
     });
     document.getElementById('filter-by-kind').addEventListener('click', () => {
-        document.getElementById('filter-text').textContent = 'Filter by kind';
+        $filterText.textContent = 'Filter by kind';
         window.filter_type = 'kind';
-        filter(document.getElementById('filter').value);
+        filter($filter.value);
     });
 
     document.getElementById('options').addEventListener('change', e => {
