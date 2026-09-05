@@ -171,18 +171,12 @@ export class TraceProvider implements vscode.WebviewViewProvider {
 
                 this._channel.appendLine("Opening raw trace: " + fileUri[0].fsPath);
 
-                if (this._view)
-                    this._view.webview.postMessage({ type: 'progress', state: 'on' });
-
                 const input = fs.readFileSync(fileUri[0].fsPath, 'utf-8');
 
                 this._source = fileUri[0].fsPath;
 
                 if (this._view)
                     this._view.webview.postMessage({ type: 'trace', source: input, file: fileUri[0].fsPath });
-
-                if (this._view)
-                    this._view.webview.postMessage({ type: 'progress', state: 'off' });
             }
         });
     }
