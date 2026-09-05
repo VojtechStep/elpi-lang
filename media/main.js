@@ -14,23 +14,26 @@ import * as E from 'shared/elaborator/index.mjs';
         switch (message.type) {
             case 'trace':
                 clear();
-                try {
-                    const elaborated = E.elaborate(message.source)
-                    trace(elaborated.cards, elaborated.elaborated)
-                    document.getElementById('trace-information').value = message.file + ' on ' + new Date().toISOString();
-                } catch (e) {
-                    console.error('Error while elaborating trace', e)
-                    vscode.postMessage({
-                      command: 'notify',
-                      value: `The trace file appears to be broken: ${e}`
-                    })
-                }
+                $loader.classList.add('is-active');
+                // Schedule the elaboration for the next event loop tick, so the loader can update
+                setTimeout(() => {
+                    try {
+                        const elaborated = E.elaborate(message.source)
+                        trace(elaborated.cards, elaborated.elaborated)
+                        document.getElementById('trace-information').value = message.file + ' on ' + new Date().toISOString();
+                    } catch (e) {
+                        console.error('Error while elaborating trace', e)
+                        vscode.postMessage({
+                          command: 'notify',
+                          value: `The trace file appears to be broken: ${e}`
+                        })
+                    } finally {
+                        $loader.classList.remove('is-active');
+                    }
+                }, 0)
                 break;
             case 'clear':
                 clear();
-                break;
-            case 'progress':
-                document.getElementById('loader').classList.toggle('is-active', message.state === 'on')
                 break;
             default:
                 break;
