@@ -5,12 +5,11 @@ type StyleName =
   | 'main';
 
 type ScriptName =
-  | 'vue'
   | 'fuzz'
   | 'quickview' | 'collapsible';
 
 type ImportName =
-  | 'shared';
+  | 'shared' | 'client';
 
 type ModuleName =
   | 'main';
@@ -38,7 +37,7 @@ export default (
     </head>
     <body class="has-navbar-fixed-top has-navbar-fixed-bottom">
        ${contentCB(`
-        <div class="columns" id="tracer">
+        <div class="columns">
 
 <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ;; Panel header: navigation, filtering, informations & options
@@ -103,73 +102,14 @@ export default (
                 </div>
             </nav>
 
-            <nav id="navstack" class="navbar is-fixed-bottom breadcrumb has-arrow-separator" aria-label="breadcrumbs" style="display: flex;">
-
-                <p>Navigation history:</p>
-
-                <ul>
-                    <li v-for="(step, index) in stack" v-bind:id="'bd-goal-'+index" :class="step.active" v-on:click="switchTo(index, step.rt, step.id)">
-                        <a><span class="mdi mdi-card-bulleted"></span>({{ step.rt }}, {{ step.id }})</a>
-                    </li>
-                </ul>
-
-                <span id="nav_clear" class="mdi mdi-close-circle-outline is-hidden" style="display: block; font-size: 18px; float: right; margin-right: 10px;" onclick="window.inboxVue.clear_navigation()"></span>
-            </nav>
+            <nav id="navstack" class="navbar is-fixed-bottom breadcrumb has-arrow-separator" aria-label="breadcrumbs" style="display: flex;"></nav>
 
 
             <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                  ;; Message Feed
                  ;; !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 
-            <div class="column is-5 messages hero is-fullheight is-hidden" id="message-feed">
-
-                <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                     ;; Message Feed - Messages aka Cards
-                     ;; !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-
-                <div class="inbox-messages" id="inbox-messages">
-                    <div v-for="(step, index) in messages" :class="step.card_class" v-bind:id="'msg-card-'+index" v-on:click="showMessage(step,index)" v-bind:data-preview-id="index">
-                        <div class="card-content">
-                            <div class="msg-header">
-                                <span v-bind:id="'popcard-'+index" v-html="step.goal_text_highlighted_elided" aria-describedby="tooltip"></span>
-                        <!--    <div class="poptip" v-bind:id="'popttip-'+index" role="tooltip"> -->
-                        <!--    <div v-html="step.goal_text_highlighted"></div> -->
-                        <!--    <div id="arrow" data-popper-arrow></div> -->
-                        <!--    </div> -->
-                                <span class="msg-timestamp"></span>
-                                <span class="msg-attachment tag"><small>{{ step.goal_id }} - ({{step.rt}}|{{ step.id }})</small></span>
-                            </div>
-                            <div class="msg-subject">
-                                <strong>Kind:</strong> {{ step.kind }}
-                            </div>
-                            <div class="msg-snippet">
-                                <span v-if="step.kind == 'Inference'"><strong>Predicate:</strong> {{ step.goal_predicate }}</span>
-                                <span v-if="step.kind == 'Init'">Entry point</span>
-                                <span v-if="step.kind == 'Findall'">
-                                    <br/>
-                                    <button class="button is-small" style="width: 100%" v-on:click.stop="toggleSubCards(step.rt_sub)">Toggle</button>
-                                </span>
-                                <span v-if="step.kind == 'CHR'">
-                                    <br/>
-                                    <button class="button is-small" style="width: 100%" v-on:click.stop="toggleSubCards(step.rt_sub)">Toggle</button>
-                                </span>
-                            </div>
-                           <div class="msg-footer" v-if="step.status_label.length > 0">
-                               <strong>Next:</strong>
-                               <a v-for="entry in step.status_label" v-on:click.stop="jump(entry[2]);">
-                                   {{entry[0]}}
-                                   <span> </span>
-                               </a>
-                           </div>
-                        </div>
-                        <div :class="step.footer">
-
-                        </div>
-                    </div>
-                </div>
-
-                <br/>
-            </div>
+            <div class="column is-5 messages hero is-fullheight is-hidden" id="message-feed"></div>
 
             <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                  ;; Message Pane
@@ -243,7 +183,10 @@ export default (
 
         ${Object.values(scripts).map(s => `<script src="${s}"></script>`).join('\n')}
         <script type="importmap">
-          { "imports": { "shared/": "${imports.shared}/" } }
+          { "imports": {
+            "shared/": "${imports.shared}/",
+            "client/": "${imports.client}/"
+          } }
         </script>
         ${Object.values(modules).map(m => `<script type="module" src="${m}"></script>`).join('\n')}
       `)}
