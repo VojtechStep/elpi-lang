@@ -8,6 +8,7 @@ import * as P from './parsing.mjs';
 
 export function elaborate(input: string): { cards: TraceV2, elaborated: E.Elaboration } {
   const raw = P.parseTrace(input);
+  // TODO: look into stack elements being copied instead of shared
   const elaborated = E.elaborateSteps(raw);
   const analysis = A.analyze(elaborated.steps);
   const cards = C.materialize(elaborated, analysis);

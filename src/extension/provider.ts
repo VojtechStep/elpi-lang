@@ -253,12 +253,12 @@ export class TraceProvider implements vscode.WebviewViewProvider {
 
     private _getHtmlForWebview(webview: vscode.Webview) {
 
-        const         vueUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'node_modules', 'vue', 'dist', 'vue.min.js'));
         const        fuzzUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'node_modules', 'fuzzball', 'dist', 'fuzzball.umd.min.js'));
         const     bulmaQVUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'node_modules', 'bulma-quickview', 'dist', 'js', 'bulma-quickview.min.js'));
         const     bulmaACUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'node_modules', '@creativebulma', 'bulma-collapsible', 'dist', 'js', 'bulma-collapsible.min.js'));
         const      scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js'));
         const      sharedUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'out', 'shared'));
+        const      clientUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'out', 'client'));
 
         const    styleResetUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'reset.css'));
         const   styleVSCodeUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'vscode.css'));
@@ -285,13 +285,13 @@ export class TraceProvider implements vscode.WebviewViewProvider {
             main: styleMainUri.toString(),
           },
           scripts: {
-            vue: vueUri.toString(),
             fuzz: fuzzUri.toString(),
             quickview: bulmaQVUri.toString(),
             collapsible: bulmaACUri.toString(),
           },
           imports: {
-            shared: sharedUri.toString()
+            shared: sharedUri.toString(),
+            client: clientUri.toString()
           },
           modules: {
             main: scriptUri.toString()
