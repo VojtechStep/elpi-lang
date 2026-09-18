@@ -479,9 +479,19 @@ export function elaborateSteps(parsedSteps: ParsedTrace): Elaboration {
       }
     })
 
+    const elabStep = elaborateStep(key, val, stacks, seedStacks);
+    if (elabStep.kind === 'Broken' && steps.getRuntime(key.runtime)!.size === 1) {
+      // TODO: this is a heuristic, fix the tracing issue instead.
+      // When a CHR rule tries to fire, it may try to unify the goal
+      // with the premises. This emits a "broken" step: no curgoal, no
+      // newgoal, just "user:assign" and "user:backchain:fail-to".
+      // This will be a runtime with only one broken step, so just
+      // ignore it
+      return;
+    }
     elaborated.set(key, {
       timestamp: val.timestamp,
-      step: elaborateStep(key, val, stacks, seedStacks)
+      step: elabStep
     });
   });
 

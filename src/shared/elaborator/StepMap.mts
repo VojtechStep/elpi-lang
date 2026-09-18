@@ -12,8 +12,12 @@ export default class StepMap<T> {
     this.store = data?.store ?? new Map();
   }
 
+  getRuntime(key: RuntimeId): Map<StepIdx, T> | undefined {
+    return this.store.get(key)
+  }
+
   get(key: StepId): T | undefined {
-    return this.store.get(key.runtime)?.get(key.step)
+    return this.getRuntime(key.runtime)?.get(key.step)
   }
 
   set(key: StepId, value: T): StepMap<T> {
