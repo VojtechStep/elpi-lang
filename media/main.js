@@ -589,9 +589,16 @@ ${step.value.findall_solution_text}
             contents += `
 <article class="panel">
     <div class="panel-heading">
-        Cut branch for <span onclick="inboxVue.jump(${ds});" class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="Goal ID: ${step.value.cut_victims[i].cut_branch_for_goal.goal_id} - (${window.inbox[ds].rt}, ${window.inbox[ds].id})`;
-	    contents += '\n\n' + step.value.cut_victims[i].cut_branch_for_goal.goal_text.replace(/['"]+/g, '');
-	    contents += `">
+        Cut branch for <span
+          class="has-tooltip-arrow has-tooltip-bottom"
+          ${typeof ds !== 'undefined' ? `onclick="inboxVue.jump(${ds});"` : ''}
+          data-tooltip="Goal ID: ${step.value.cut_victims[i].cut_branch_for_goal.goal_id} - ${
+            typeof ds !== 'undefined'
+              ? `(${window.inbox[ds].rt}, ${window.inbox[ds].id})`
+              : '(never resumed)'
+          }`;
+            contents += '\n\n' + step.value.cut_victims[i].cut_branch_for_goal.goal_text.replace(/['"]+/g, '');
+            contents += `">
           ${elide(20, step.value.cut_victims[i].cut_branch_for_goal.goal_text)}
         </span>
     </div>

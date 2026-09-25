@@ -197,7 +197,10 @@ export function materialize(
           goalId: step.goalId,
           cuts: step.cut.map(c => ({
             goalId: c.goalId,
-            goal: getGoalText(c.goalId, elaboration.goalText),
+            // TODO: sometimes there is no goal text (not sure of the
+            // exact conditions, but AFAICT it only happens when the
+            // runtime crashes); look into it better
+            goal: elaboration.goalText.get(c.goalId) || c.goalId.toString(),
             cutBranch: {
               clause: c.clause,
               loc: c.loc
